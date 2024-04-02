@@ -22,9 +22,15 @@
             <input type="password" v-model="loginForm.password" class="form-control" id="password" placeholder="">
             <small class="text-danger" v-show="loginForm.passwordError">{{ loginForm.passwordError }}</small>
           </div>
-          <div class="text-center">
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAAWIZbWOBsTyF9ID" data-callback="javascriptCallback"></div>
+
+          <div class="text-center" v-if="cf_token">
             <button type="submit" class="btn btn-primary">{{ $t('auth.login.sign-in') }}</button>
           </div>
+
+
+
         </form>
       </div>
     </div>
@@ -46,6 +52,12 @@
 </template>
 
 <style scoped>
+
+.cf-turnstile{
+  display: grid;
+  place-items: center; /* 这会同时处理水平和垂直居中 */
+  height: 100px;
+}
 
 .title-background {
   background-image: url('~@/assets/Dark-Night.png');
@@ -114,6 +126,7 @@ export default {
   name: 'Login',  //this is the name of the component
   data () {
     return {
+      cf_token: '',
       sharedState: store.state,
       loginForm: {
         username: '',
@@ -180,6 +193,21 @@ export default {
           }
         })
     }
+  },
+  mounted() {
+    window.onloadTurnstileCallback = function () {
+        turnstile.render('#cf-turnstile', {
+            sitekey: '0x4AAAAAAAWIZbWOBsTyF9ID',
+            callback: function(token) {
+                console.log(`Challenge Success ${token}`);
+                this.cf_token=token
+            },
+        });
+    };
+
+    if (typeof turnstile !== 'undefined') {
+        window.onloadTurnstileCallback(); // 如果 turnstile 已加载，立即调用
+      }
   }
 }
 </script>

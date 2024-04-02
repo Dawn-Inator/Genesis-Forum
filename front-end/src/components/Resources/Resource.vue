@@ -67,6 +67,69 @@
   </div>
 </template>
 
+<style scoped>
+.container {
+  padding-top: 20px;
+}
+
+/* 侧边栏样式 */
+aside {
+  background-color: #f9f9fa; /* 轻微的背景色 */
+  border-radius: 8px; /* 轻微的圆角 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+}
+
+/* 侧边栏用户头像区域 */
+.text-center {
+  margin-bottom: 30px;
+}
+
+.g-width-100.g-height-100.mx-auto.mb-3 img {
+  width: 100px;
+  height: 100px; /* 使头像大小固定 */
+}
+
+/* 菜单项样式 */
+.list-unstyled li {
+  transition: background-color 0.3s ease; /* 平滑的背景颜色过渡效果 */
+}
+
+/* 菜单链接样式 */
+.u-link-v5 {
+  display: block;
+  padding: 10px 15px; /* 增加内边距 */
+  border-radius: 8px; /* 圆角 */
+}
+
+
+.active .u-icon-v1 {
+  color: #ffffff;
+}
+
+/* 菜单图标 */
+.u-icon-v1 {
+  margin-right: 5px;
+}
+
+
+/* 右侧内容区域 */
+.col-lg-9 {
+  margin-bottom: 50px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .container {
+    padding-top: 10px;
+  }
+
+  .col-lg-3, .col-lg-9 {
+    margin-bottom: 30px;
+  }
+}
+</style>
+
+
 <script>
 import store from '../../store'
 
@@ -97,7 +160,7 @@ export default {
     this.getUser(user_id)
     // tooltip
     $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip(); 
+      $('[data-toggle="tooltip"]').tooltip();
     })
   }
 }
