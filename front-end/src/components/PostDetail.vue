@@ -11,7 +11,7 @@
             </button>
           </div>
           <div class="modal-body">
-          
+
             <form id="editPostForm" @submit.prevent="onSubmitUpdatePost" @reset.prevent="onResetUpdatePost">
               <div class="form-group" v-bind:class="{'u-has-error-v1': editPostForm.titleError}">
                 <input type="text" v-model="editPostForm.title" class="form-control" id="editPostFormTitle" placeholder="标题">
@@ -27,7 +27,7 @@
               <button type="reset" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="btn btn-primary">Update</button>
             </form>
-    
+
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
             </button>
           </div>
           <div class="modal-body">
-          
+
             <form id="editCommentForm" @submit.prevent="onSubmitUpdateComment" @reset.prevent="onResetUpdateComment">
               <div class="form-group">
                 <textarea v-model="editCommentForm.body" class="form-control" id="editCommentFormBody" rows="5" placeholder=" 评论内容"></textarea>
@@ -54,21 +54,20 @@
               <button type="reset" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="btn btn-primary">Update</button>
             </form>
-    
+
           </div>
         </div>
       </div>
     </div>
     <!-- End Modal: Edit Comment -->
 
-    <div class="row">
-      <!-- Articles Content -->
-      <div class="col-lg-9">
-        
-        <article v-if="post" class="g-mb-30 g-pt-15 g-pb-15">
-          <header class="g-mb-30">
-            <h1 class="g-color-primary g-mb-15" v-html="post.title"></h1>
-
+     <div class="row">
+          <!-- Articles Content -->
+          <div class="col-lg-9">
+            <article v-if="post" class="g-mb-30 g-pt-15 g-pb-15">
+              <header class="article-header g-mb-30">
+                <!-- 标题和作者等信息，应用上述CSS -->
+              <h1 class="g-color-primary g-mb-15" v-html="post.title"></h1>
             <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
               <li v-if="post.author && (post.author.id == sharedState.user_id || sharedState.user_perms.includes('admin'))" class="list-inline-item">
                 <button v-on:click="onEditPost(post)" class="btn btn-xs u-btn-outline-purple g-mr-5" data-toggle="modal" data-target="#editPostModal">编辑</button>
@@ -101,7 +100,7 @@
           </header>
 
           <div id="postBody" class="g-font-size-16 g-line-height-1_8 g-mb-30">
-            
+
             <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
             要指定TOC的级数哦，如果要修改TOC的样式，要在toc-rendered指定的函数中操作，因为要等它把TOC给创建出来
              -->
@@ -114,7 +113,7 @@
               toc-id="toc"
               class="markdown-body">
             </vue-markdown>
-            
+
           </div>
 
           <div id="like-post" class="row">
@@ -183,13 +182,13 @@
                 <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 10 }}" class="dropdown-item g-px-10">
                   <i class="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 10 条顶层评论
                 </router-link>
-                
+
                 <div class="dropdown-divider"></div>
-                
+
                 <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 20 }}" class="dropdown-item g-px-10">
                   <i class="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 20 条顶层评论
                 </router-link>
-                
+
               </div>
             </div>
           </div>
@@ -221,11 +220,11 @@
 
           <!-- Panel Body -->
           <div v-if="comments" class="card-block g-pa-0" >
-          
+
             <!-- 一级评论，按时间倒序排列 -->
             <div v-for="(comment, index) in comments.items" v-bind:key="index">
               <div v-bind:id="'c' + comment.id" class="comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20">
-                <router-link v-bind:to="{ path: `/user/${comment.author.id}` }">  
+                <router-link v-bind:to="{ path: `/user/${comment.author.id}` }">
                   <img class="d-flex g-width-50 g-height-50 rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2 g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
                 </router-link>
                 <div class="media-body">
@@ -283,7 +282,7 @@
                   v-if="comment.descendants"
                   v-for="(child, cindex) in comment.descendants" v-bind:key="cindex"
                   v-bind:id="'c' + child.id">
-                <router-link v-bind:to="{ path: `/user/${child.author.id}` }">  
+                <router-link v-bind:to="{ path: `/user/${child.author.id}` }">
                   <img class="d-flex g-width-50 g-height-50 rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2 g-mt-3 g-mr-15" v-bind:src="child.author.avatar" v-bind:alt="child.author.name || child.author.username">
                 </router-link>
                 <div class="media-body">
@@ -340,7 +339,7 @@
           </div>
           <!-- End Panel Body -->
         </div>
-      
+
         <!-- Pagination #04 -->
         <div v-if="comments && comments._meta.total_pages > 1">
           <pagination
@@ -363,13 +362,156 @@
           </div>
           <div id="toc" class="toc"></div>
         </div>
-        
+
       </div>
       <!-- End Sidebar -->
     </div>
 
   </div>
 </template>
+
+<style scoped>
+/* Modal样式调整 */
+.modal-content {
+  border-radius: 0.5rem; /* 圆角 */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* 深色阴影 */
+}
+
+.modal-header {
+  background-color: #007bff; /* 蓝色背景 */
+  color: #fff; /* 白色文本 */
+}
+
+/* 表单和按钮样式 */
+.form-control {
+  border-radius: 0.25rem; /* 轻微圆角 */
+}
+
+.btn-secondary, .btn-primary {
+  margin-right: 10px; /* 按钮间距 */
+}
+
+
+/* 侧边栏目录样式 */
+#tocHeader {
+  font-weight: bold;
+  color: #007bff; /* 主题蓝 */
+}
+
+#toc {
+  padding: 10px;
+  background-color: #f8f8f8; /* 更淡的背景色 */
+  border-radius: 0.25rem;
+}
+
+.article, .comment-item {
+  background-color: #fff; /* 白色背景 */
+  border: 1px solid #dee2e6; /* 浅灰色边框 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+  border-radius: 5px; /* 圆角边框 */
+  margin-bottom: 20px; /* 底部间距 */
+  padding: 20px; /* 内边距 */
+}
+
+/* 针对文章标题和摘要等的样式调整 */
+.article-header {
+  border-bottom: 1px solid #dee2e6; /* 在标题下方添加一条边框 */
+  margin-bottom: 15px; /* 标题下方间距 */
+  padding-bottom: 10px; /* 标题底部内边距 */
+}
+
+/* 模态框的样式调整 */
+.modal-content {
+  border-radius: 0.3rem; /* 模态框圆角 */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* 模态框阴影 */
+}
+
+/* 表单控件样式调整 */
+.form-control {
+  border-radius: 0.25rem; /* 表单控件圆角 */
+}
+
+/* 按钮样式调整，以及hover效果 */
+.btn-primary, .btn-secondary {
+  border-radius: 0.25rem; /* 按钮圆角 */
+}
+.btn:hover {
+  opacity: 0.85; /* 按钮悬停时的透明度变化 */
+}
+
+/* 对评论部分进行特别的视觉强调 */
+.comment-item {
+  background-color: #f8f9fa; /* 评论背景色稍深一点 */
+}
+
+
+/* 文章标题样式 */
+.article-header h1 {
+  color: #007bff; /* 标题颜色 */
+  text-shadow: 0px 2px 4px rgba(0,0,0,0.2); /* 文字阴影 */
+  font-size: 2.5rem; /* 字体大小 */
+  font-weight: bold; /* 字重 */
+  margin-bottom: 1rem; /* 底部边距 */
+}
+
+/* 文章内容样式 */
+#postBody {
+  border: 1px solid #dee2e6; /* 设置边框颜色和宽度 */
+    border-radius: 10px; /* 设置边框圆角 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    padding: 20px; /* 内边距 */
+    background-color: #ffffff; /* 背景颜色 */
+    margin-bottom: 30px; /* 底部外边距 */
+}
+
+/* 文章目录样式 */
+#tocHeader {
+  background-color: #f8f9fa; /* 背景颜色 */
+  padding: 10px; /* 内边距 */
+  border-radius: 5px; /* 圆角 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 阴影 */
+}
+
+.toc {
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.toc a {
+  color: #007bff;
+  text-decoration: none; /* 移除下划线 */
+  transition: color 0.3s; /* 过渡效果 */
+}
+
+.toc a:hover {
+  color: #0056b3; /* 鼠标悬停颜色 */
+}
+
+/* 评论和按钮样式调整 */
+.comment-item, .btn-xs {
+  border-radius: 5px; /* 圆角调整 */
+}
+
+.btn-xs {
+  font-size: 0.8rem; /* 按钮字体大小 */
+  padding: 0.25rem 0.5rem; /* 按钮内边距 */
+}
+
+/* 链接样式调整 */
+.u-link-v5, .comment-author {
+  color: #17a2b8; /* 链接颜色 */
+  transition: color 0.3s; /* 过渡效果 */
+}
+
+.u-link-v5:hover, .comment-author:hover {
+  color: #138496; /* 鼠标悬停颜色 */
+}
+
+</style>
+
 
 <script>
 import store from '../store'
@@ -452,7 +594,7 @@ export default {
       if (typeof this.$route.query.per_page != 'undefined') {
         per_page = this.$route.query.per_page
       }
-      
+
       if (typeof q != 'undefined') {
         path = `/api/search/post-detail/${id}?q=${q}&page=${page}&per_page=${per_page}`
       } else {
@@ -582,7 +724,7 @@ export default {
               console.log(error.response.data)
               this.$toasted.error(error.response.data.message, { icon: 'fingerprint' })
             })
-          
+
         } else {
           this.$swal('Cancelled', 'The post is safe :)', 'error')
         }
@@ -627,7 +769,7 @@ export default {
       if (typeof this.$route.query.per_page != 'undefined') {
         per_page = this.$route.query.per_page
       }
-      
+
       const path = `/api/posts/${id}/comments/?page=${page}&per_page=${per_page}`
       this.$axios.get(path)
         .then((response) => {
@@ -890,7 +1032,7 @@ export default {
     })
     // tooltip
     $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip(); 
+      $('[data-toggle="tooltip"]').tooltip();
     })
     // 点击回复评论链接后，移动并显示评论表单
     $(document).ready(function() {

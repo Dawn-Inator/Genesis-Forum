@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <section class="user-profile-section">
     <!-- Modal: Send Messages -->
-    <div data-backdrop="static" class="modal fade" id="sendMessagesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade custom-modal" id="sendMessagesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -11,7 +11,7 @@
             </button>
           </div>
           <div class="modal-body">
-          
+
             <form id="sendMessagesForm" @submit.prevent="onSubmitSendMessages" @reset.prevent="onResetSendMessages">
               <div class="form-group">
                 <textarea v-model="sendMessagesForm.body" class="form-control" id="sendMessagesFormBody" rows="5" placeholder=" 内容"></textarea>
@@ -20,7 +20,7 @@
               <button type="reset" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="btn btn-primary">Send</button>
             </form>
-    
+
           </div>
         </div>
       </div>
@@ -28,8 +28,8 @@
     <!-- End Modal: Send Messages -->
 
     <!-- 用户所有运行中的后台任务的进度 -->
-    <div class="container">
-      <alert 
+    <div class="container mt-5">
+      <alert
         v-for="(alert, index) in alerts" :key="index"
         v-bind:id="alert.id"
         v-bind:variant="alert.variant"
@@ -38,13 +38,15 @@
     </div>
 
     <!-- 用户信息 -->
-    <div v-if="user" class="container">
+    <div v-if="user" class="user-info-box">
       <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40">
         <div class="row">
           <div class="col-sm-3 g-mb-40 g-mb-0--lg">
             <!-- User Image -->
             <div class="g-mb-20">
-              <img v-if="user._links.avatar" class="img-fluid w-100 g-brd-around g-brd-gray-light-v4 g-pa-2" v-bind:src="user._links.avatar" v-bind:alt="user.name || user.username">
+              <div class="avatar-container">
+                <img v-if="user._links.avatar" class="img-fluid user-avatar" v-bind:src="user._links.avatar" v-bind:alt="user.name || user.username">
+              </div>
             </div>
             <!-- User Image -->
 
@@ -57,7 +59,7 @@
               <i class="icon-user-unfollow g-pos-rel g-top-1 g-mr-5"></i> Unfollow
             </button>
 
-            <router-link v-if="$route.params.id == sharedState.user_id && $route.params.id != sharedState.user_id" v-bind:to="{ name: 'MessagesHistoryResource', query: { from: $route.params.id } }" class="btn btn-block u-btn-outline-purple g-rounded-50 g-py-12 g-mb-10">
+            <router-link v-if="$route.params.id != sharedState.user_id" v-bind:to="{ name: 'MessagesHistoryResource', query: { from: $route.params.id } }" class="btn btn-block u-btn-outline-purple g-rounded-50 g-py-12 g-mb-10">
               <i class="icon-bubble g-pos-rel g-top-1 g-mr-5"></i> Send private message
             </router-link>
 
@@ -77,15 +79,15 @@
               <i class="icon-ban g-pos-rel g-top-1 g-mr-5"></i> Delete Your Account
             </button>
             <!-- End Actions -->
-           
+
           </div>
 
           <div class="col-sm-9">
 
             <!-- Tab Nav -->
-            <ul class="nav nav-tabs g-mb-20">
+            <ul class="nav nav-tabs g-mb-20" >
               <li class="nav-item">
-                <router-link v-bind:to="{ name: 'UserOverview' }" v-bind:active-class="'active'" class="nav-link" v-bind:class="isUserOverView">Overview <span class="u-label g-font-size-11 g-bg-primary g-rounded-20 g-px-10"><i class="icon-layers g-pos-rel g-top-1 g-mr-8"></i></span></router-link>
+                <router-link v-bind:to="{ name: 'UserOverview' }" v-bind:active-class="'active'" class="nav-link" v-bind:class="isUserOverView" style="color: black;">Overview <span class="u-label g-font-size-11 g-bg-primary g-rounded-20 g-px-10"><i class="icon-layers g-pos-rel g-top-1 g-mr-8"></i></span></router-link>
               </li>
               <li class="nav-item">
                 <router-link v-bind:to="{ name: 'UserFollowers' }" v-bind:active-class="'active'" class="nav-link">Followers <span class="u-label g-font-size-11 g-bg-deeporange g-rounded-20 g-px-10">{{ user.followers_count }}</span></router-link>
@@ -109,7 +111,7 @@
     <!-- 当前登录的用户发表新博客文章 -->
     <div class="container">
 
-      <div v-if="sharedState.is_authenticated && $route.params.id == sharedState.user_id && sharedState.user_perms.includes('write')" class="card border-0 g-mb-15">
+      <div v-if="sharedState.is_authenticated && $route.params.id == sharedState.user_id && sharedState.user_perms.includes('write')" class="publish-new-post">
         <!-- Panel Header -->
         <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
           <h3 class="h6 mb-0">
@@ -142,6 +144,138 @@
     </div>
   </section>
 </template>
+
+<style scoped>
+.user-profile-section .custom-modal .modal-content {
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.5);
+}
+
+.user-profile-section .user-info-box {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.user-profile-section .user-info-box .btn {
+  border-radius: 25px;
+  padding: 10px 30px;
+}
+
+.user-profile-section .publish-new-post {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  margin-bottom: 20px;
+}
+
+.user-profile-section .publish-new-post .btn-primary {
+  background-color: #007bff;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 30px;
+}
+
+.user-profile-section .publish-new-post .form-control {
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.user-profile-section .nav-tabs .nav-item .nav-link {
+
+  margin-right: 5px;
+}
+
+.user-profile-section .nav-tabs .nav-item .nav-link.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* 模态框美化 */
+.custom-modal .modal-content {
+  border-radius: 15px;
+  padding: 20px;
+  background: #f7f7f7;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 用户头像美化 */
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  height: 100px; /* 或任何希望的高度 */
+  width: 100%; /* 容器宽度 */
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 用户操作按钮美化 */
+.user-info-box .btn {
+  border-radius: 30px;
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.user-info-box .btn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-primary:hover {
+  background-color: #004099;
+  border-color: #003675;
+}
+
+/* 发布新博客文章部分美化 */
+.publish-new-post {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.publish-new-post .form-control {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.publish-new-post .form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Tab 样式调整 */
+.nav-tabs .nav-item .nav-link.active {
+  background-color: #007bff;
+  color: white;
+  border-radius: .25rem;
+}
+
+
+</style>
+
 
 <script>
 import Alert from '../Base/Alert'

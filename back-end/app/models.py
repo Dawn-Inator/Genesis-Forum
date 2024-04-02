@@ -180,7 +180,7 @@ class Role(PaginatedAPIMixin, db.Model):
             'author': ('作者', (Permission.FOLLOW, Permission.COMMENT, Permission.WRITE)),
             'administrator': ('管理员', (Permission.FOLLOW, Permission.COMMENT, Permission.WRITE, Permission.ADMIN)),
         }
-        default_role = 'reader'
+        default_role = 'author'
         for r in roles:  # r 是字典的键
             role = Role.query.filter_by(slug=r).first()
             if role is None:
@@ -372,8 +372,9 @@ class User(PaginatedAPIMixin, db.Model):
             'user_id': self.id,
             'confirmed': self.confirmed,
             'user_name': self.name if self.name else self.username,
-            'user_avatar': base64.b64encode(self.avatar(24).encode('utf-8')).decode('utf-8'),
-            'permissions': self.role.get_permissions() if self.role else [],
+            'user_avatar': base64.b64encode(self.avatar(24).
+                                            encode('utf-8')).decode('utf-8'),
+            'permissions': self.role.get_permissions(),
             'exp': now + timedelta(seconds=expires_in),
             'iat': now
         }

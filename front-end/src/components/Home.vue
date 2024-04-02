@@ -12,7 +12,10 @@
             </button>
           </div>
           <div class="modal-body">
-          
+
+          <div class="row justify-content-center my-3">
+            <div class="col-md-6">
+
             <form id="editPostForm" @submit.prevent="onSubmitUpdatePost" @reset.prevent="onResetUpdatePost">
               <div class="form-group" v-bind:class="{'u-has-error-v1': editPostForm.titleError}">
                 <input type="text" v-model="editPostForm.title" class="form-control" id="editPostFormTitle" placeholder="标题">
@@ -28,11 +31,15 @@
               <button type="reset" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="btn btn-primary">Update</button>
             </form>
-    
+
+            </div>
+          </div>
+
           </div>
         </div>
       </div>
     </div>
+
 
     <form id="addPostForm" v-if="sharedState.is_authenticated && sharedState.user_perms.includes('write')" @submit.prevent="onSubmitAddPost" class="g-mb-40">
       <div class="form-group" v-bind:class="{'u-has-error-v1': postForm.titleError}">
@@ -49,13 +56,13 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
-    <div class="card border-0 g-mb-15">
+    <div class="card border-0 g-mb-15 my-3">
       <!-- Panel Header -->
-      <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
-        <h3 class="h6 mb-0">
-          <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> All Posts <small v-if="posts">(共 {{ posts._meta.total_items }} 篇, {{ posts._meta.total_pages }} 页)</small>
-        </h3>
-        
+      <div class="card-header d-flex align-items-center justify-content-between g-bg-primary text-white">
+          <h3 class="h6 mb-0">
+            <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> All Posts <small v-if="posts">(共 {{ posts._meta.total_items }} 篇, {{ posts._meta.total_pages }} 页)</small>
+          </h3>
+
         <div class="dropdown g-mb-10 g-mb-0--md">
           <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="icon-options-vertical g-pos-rel g-top-1"></i>
@@ -70,13 +77,13 @@
             <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 10 }}" class="dropdown-item g-px-10">
               <i class="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 10 篇
             </router-link>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 20 }}" class="dropdown-item g-px-10">
               <i class="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 20 篇
             </router-link>
-            
+
           </div>
         </div>
       </div>
@@ -96,7 +103,7 @@
     </div>
 
     <!-- Pagination #04 -->
-    <div v-if="posts && posts._meta.total_pages > 1">
+    <div v-if="posts && posts._meta.total_pages > 1" class="my-4">
       <pagination
         v-bind:cur-page="posts._meta.page"
         v-bind:per-page="posts._meta.per_page"
@@ -107,6 +114,69 @@
 
   </div>
 </template>
+
+<style scoped>
+/* 基础重设与公共样式 */
+.form-control, .btn {
+  border-radius: 0.25rem;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+}
+
+/* 模态窗口样式调整 */
+.modal-content {
+  border-radius: 0.5rem;
+}
+
+.modal-header, .modal-body {
+  padding: 20px;
+}
+
+/* 提交表单样式 */
+#addPostForm, #editPostForm {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* 错误信息样式 */
+.form-control-feedback {
+  color: #dc3545;
+}
+
+/* 卡片样式调整 */
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+}
+
+.card-header {
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+/* 分页样式调整 */
+.pagination {
+  justify-content: center; /* 分页居中 */
+}
+
+/* 链接美化 */
+a {
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #0056b3;
+}
+</style>
+
 
 <script>
 import store from '../store'
@@ -157,7 +227,7 @@ export default {
       if (typeof this.$route.query.per_page != 'undefined') {
         per_page = this.$route.query.per_page
       }
-      
+
       const path = `/api/posts/?page=${page}&per_page=${per_page}`
       this.$axios.get(path)
         .then((response) => {

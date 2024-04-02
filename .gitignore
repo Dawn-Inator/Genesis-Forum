@@ -3,7 +3,7 @@ __pycache__/
 venv/
 .env
 app.db
-madblog.log*
+genesis-forum.log*
 
 # Unit test / coverage reports
 tmp/

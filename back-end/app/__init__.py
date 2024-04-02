@@ -35,7 +35,7 @@ def configure_app(app, config_class):
     app.url_map.strict_slashes = False
     # 整合RQ任务队列
     app.redis = Redis.from_url(app.config['REDIS_URL'])
-    app.task_queue = rq.Queue('madblog-tasks', connection=app.redis, default_timeout=3600)  # 设置任务队列中各任务的执行最大超时时间为 1 小时
+    app.task_queue = rq.Queue('genesis-forum', connection=app.redis, default_timeout=3600)  # 设置任务队列中各任务的执行最大超时时间为 1 小时
     # Elasticsearch全文检索
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
         if app.config['ELASTICSEARCH_URL'] else None
@@ -76,7 +76,7 @@ def configure_logging(app):
         else:
             if not os.path.exists('logs'):
                 os.mkdir('logs')
-            file_handler = RotatingFileHandler('logs/madblog.log',
+            file_handler = RotatingFileHandler('logs/genesis-forum.log',
                                                maxBytes=10240, backupCount=10)
             file_handler.setFormatter(logging.Formatter(
                 '%(asctime)s %(levelname)s: %(message)s '

@@ -1,31 +1,130 @@
 <template>
-  <div class="container">
-    <h1>Register</h1>
-    <div class="row">
-      <div class="col-md-4">
-        <form @submit.prevent="onSubmit">
-          <div class="form-group"  v-bind:class="{'u-has-error-v1': registerForm.usernameError}" >
+  <div class="container mt-5">
+    <!-- 标题居中显示 -->
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h1 class="text-center display-4 text-primary my-5">Welcome to Genesis Forum !!</h1>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form @submit.prevent="onSubmit" class="p-5 shadow rounded">
+          <div class="form-group" v-bind:class="{'has-error': registerForm.usernameError}">
             <label for="username">Username</label>
-            <input type="text" v-model="registerForm.username" class="form-control" id="username" placeholder="">
-            <small class="form-control-feedback" v-show="registerForm.usernameError">{{ registerForm.usernameError }}</small>
+            <input type="text" v-model="registerForm.username" class="form-control" id="username" placeholder="Enter username">
+            <small class="form-control-feedback text-danger" v-show="registerForm.usernameError">{{ registerForm.usernameError }}</small>
           </div>
-          <div class="form-group" v-bind:class="{'u-has-error-v1': registerForm.emailError}" >
+          <div class="form-group" v-bind:class="{'has-error': registerForm.emailError}">
             <label for="email">Email address</label>
-            <input type="email" v-model="registerForm.email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="">
+            <input type="email" v-model="registerForm.email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
             <small v-if="!registerForm.emailError" id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            <small class="form-control-feedback" v-show="registerForm.emailError">{{ registerForm.emailError }}</small>
+            <small class="form-control-feedback text-danger" v-show="registerForm.emailError">{{ registerForm.emailError }}</small>
           </div>
-          <div class="form-group" v-bind:class="{'u-has-error-v1': registerForm.passwordError}" >
+          <div class="form-group" v-bind:class="{'has-error': registerForm.passwordError}">
             <label for="password">Password</label>
-            <input type="password" v-model="registerForm.password" class="form-control" id="password" placeholder="">
-            <small class="form-control-feedback" v-show="registerForm.passwordError">{{ registerForm.passwordError }}</small>
+            <input type="password" v-model="registerForm.password" class="form-control" id="password" placeholder="Password">
+            <small class="form-control-feedback text-danger" v-show="registerForm.passwordError">{{ registerForm.passwordError }}</small>
           </div>
-          <button type="submit" class="btn btn-primary">Register</button>
+          <!-- Register Form Structure (Keep the same) -->
+          <div class="container">
+            <div class="row justify-content-center"> <!-- Added justify-content-center -->
+              <div class="col-md-6"> <!-- Adjusted column size for better alignment -->
+                <form @submit.prevent="onSubmit">
+                  <!-- Form fields -->
+                  <button type="submit" class="btn btn-primary mt-3 w-100">Register</button> <!-- Added w-100 for full width -->
+                </form>
+              </div>
+            </div>
+          </div>
+
         </form>
       </div>
     </div>
   </div>
 </template>
+
+
+<style scoped>
+
+.row.justify-content-center {
+  display: flex;
+  justify-content: center; /* Flex container for center alignment */
+}
+
+
+
+.btn-primary {
+  background-image: linear-gradient(to right, #4a90e2, #007bff); /* 渐变背景色 */
+  border: none;
+  color: #fff; /* 按钮文字颜色 */
+  padding: 0.5rem 1.5rem; /* 按钮内边距调整 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 过渡动画 */
+  display: inline-block; /* 使transition生效 */
+  border-radius: 20px; /* 圆角边框 */
+  width: auto; /* Override width if necessary */
+  margin: 0 auto; /* Auto margins for horizontal centering */
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* 鼠标悬停时添加阴影 */
+  background-image: linear-gradient(to right, #007bff, #4a90e2); /* 渐变背景色变化 */
+}
+
+.w-50 {
+  width: 100%;
+}
+
+.text-danger {
+  color: #e3342f;
+}
+
+.has-error input {
+  border-color: #e3342f; /* 错误颜色 */
+}
+
+.form-control-feedback {
+  display: block;
+}
+
+.shadow {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.rounded {
+  border-radius: .25rem;
+}
+
+p-5 {
+  padding: 3rem !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-5 {
+  margin-top: 3rem;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.text-danger {
+  color: #e3342f;
+}
+</style>
+
+
 
 <script>
 export default {

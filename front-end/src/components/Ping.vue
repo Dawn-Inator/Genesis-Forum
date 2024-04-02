@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+
     <h3>{{ $t('hello', { name: 'Vue.js' }) }}</h3>
 
     <alert
@@ -16,10 +17,12 @@
       <span class="u-badge-v2--xs u-badge--top-left g-bg-red g-mt-7 g-ml-7"></span>
       <img
         class="media-object g-rounded-50x u-image-icon-size-md"
-        src="https://www.gravatar.com/avatar/d93775f9ce477d4ef3a0baabdf9e97d2?d=identicon&s=128"
+        src="../assets/Dawn-Inator-Profile.png"
         alt="Image Description"
       >
     </span>
+
+    <div>Deployed by Dawn Inator</div>
   </div>
 </template>
 
@@ -31,6 +34,7 @@ export default {
   components: {
     alert: Alert
   },
+
   data() {
     return {
       msg: "",
@@ -53,6 +57,7 @@ export default {
       ]
     };
   },
+
   methods: {
     getMessage() {
       const path = "/api/ping";
@@ -68,7 +73,8 @@ export default {
           // eslint-disable-next-line
           console.error(error);
         });
-    }
+    },
+
   },
   created() {
     this.getMessage();

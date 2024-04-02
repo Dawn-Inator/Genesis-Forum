@@ -1,49 +1,97 @@
 <template>
-  <div>
+  <div class="user-info-section">
     <!-- Username -->
-    <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
-      <h2 v-if="user.name" class="g-font-weight-300 g-mr-10">{{ user.name }}</h2>
-      <h2 v-else class="g-font-weight-300 g-mr-10">{{ user.username }}</h2>
+    <div class="user-name">
+      <h2 class="g-font-weight-300 g-mr-10">{{ user.name || user.username }}</h2>
     </div>
     <!-- End Username -->
 
-    <!-- Member since -->
-    <h4 v-if="user.member_since" class="h6 g-font-weight-300 g-mb-10">
-      <i class="icon-badge g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Member since : {{ $moment(user.member_since).format('LLL') }}
-    </h4>
-    <!-- End Member since -->
-
-    <!-- Last seen -->
-    <h4 v-if="user.last_seen" class="h6 g-font-weight-300 g-mb-10">
-      <i class="icon-eye g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Last seen : {{ $moment(user.last_seen).fromNow() }}
-    </h4>
-    <!-- End Last seen -->
+    <!-- Member since and Last seen -->
+    <div class="user-timings">
+      <h4 v-if="user.member_since" class="g-font-weight-300 g-mb-10">
+        <i class="icon-badge g-pos-rel g-top-1 g-mr-5"></i> Member since: {{ $moment(user.member_since).format('LLL') }}
+      </h4>
+      <h4 v-if="user.last_seen" class="g-font-weight-300 g-mb-10">
+        <i class="icon-eye g-pos-rel g-top-1 g-mr-5"></i> Last seen: {{ $moment(user.last_seen).fromNow() }}
+      </h4>
+    </div>
+    <!-- End Member since and Last seen -->
 
     <!-- User Info -->
-    <ul class="list-inline g-font-weight-300">
+    <ul class="list-inline user-info">
       <li class="list-inline-item g-mr-20">
-        <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Verified User
+        <i class="icon-check g-pos-rel g-top-1 g-mr-5"></i> Verified User
       </li>
       <li v-if="user.email" class="list-inline-item g-mr-20">
-        <i class="icon-link g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i>  <a class="g-color-main g-color-primary--hover" v-bind:href="'mailto:' + user.email">{{ user.email }}</a>
+        <i class="icon-link g-pos-rel g-top-1 g-mr-5"></i> <a class="email-link" v-bind:href="'mailto:' + user.email">{{ user.email }}</a>
       </li>
     </ul>
     <!-- End User Info -->
 
     <!-- Location -->
-    <h4 v-if="user.location" class="h6 g-font-weight-300 g-mb-10">
-      <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ user.location }}
-    </h4>
+    <div class="user-location">
+      <h4 v-if="user.location" class="g-font-weight-300 g-mb-10">
+        <i class="icon-location-pin g-pos-rel g-top-1 g-mr-5"></i> {{ user.location }}
+      </h4>
+    </div>
     <!-- End Location -->
 
-    <div v-if="user.about_me">
-      <div class="u-divider u-divider-db-dashed u-divider-center g-brd-gray-light-v2 g-mt-50 g-mb-30">
-        <i class="u-divider__icon u-divider__icon--indented g-bg-gray-light-v4 g-color-gray-light-v1 rounded-circle">Me</i>
-      </div>
-      <p class="g-line-height-1_8 g-font-weight-300">{{ user.about_me }}</p>
+    <!-- About Me -->
+    <div v-if="user.about_me" class="user-about">
+      <p>{{ user.about_me }}</p>
     </div>
+    <!-- End About Me -->
   </div>
 </template>
+
+<style scoped>
+.user-info-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.user-name h2 {
+  color: #007bff; /* 主题颜色 */
+  font-size: 24px;
+}
+
+.user-timings h4 {
+  color: #666;
+  font-size: 16px;
+}
+
+.user-info {
+  padding-top: 15px;
+}
+
+.user-info i {
+  color: #28a745; /* Bootstrap success color for icons */
+}
+
+.email-link {
+  color: #007bff; /* 主题颜色 */
+  text-decoration: none;
+}
+
+.email-link:hover {
+  text-decoration: underline;
+}
+
+.user-location h4 {
+  color: #17a2b8; /* Bootstrap info color */
+}
+
+.user-about p {
+  background-color: #fff;
+  border-left: 4px solid #007bff;
+  padding: 10px;
+  color: #666;
+  font-style: italic;
+}
+</style>
+
 
 <script>
 export default {

@@ -66,7 +66,7 @@ def send_messages(*args, **kwargs):
             Dear {},
             {}
             Sincerely,
-            The Madblog Team
+            The Genensis Team
             Note: replies to this email address are not monitored.
             '''.format(user.username, message.body)
 
@@ -74,12 +74,12 @@ def send_messages(*args, **kwargs):
             <p>Dear {0},</p>
             <p>{1}</p>
             <p>Sincerely,</p>
-            <p>The Madblog Team</p>
+            <p>The Genensis Team</p>
             <p><small>Note: replies to this email address are not monitored.</small></p>
             '''.format(user.username, message.body)
             '''
             # 后台任务已经是异步了，所以send_email()没必要再用多线程异步，所以这里指定了 sync=True
-            send_email('[Madblog] 温馨提醒',
+            send_email('[Genesis Forum] 温馨提醒',
                        sender=app.config['MAIL_SENDER'],
                        recipients=[user.email],
                        text_body=text_body,
@@ -128,7 +128,7 @@ def export_posts(*args, **kwargs):
         Dear {},
         Please find attached the archive of your posts that you requested.
         Sincerely,
-        The Madblog Team
+        The Genesis Team
         Note: replies to this email address are not monitored.
         '''.format(user.username)
 
@@ -136,11 +136,11 @@ def export_posts(*args, **kwargs):
         <p>Dear {0},</p>
         <p>Please find attached the archive of your posts that you requested.</p>
         <p>Sincerely,</p>
-        <p>The Madblog Team</p>
+        <p>The Genesis Team</p>
         <p><small>Note: replies to this email address are not monitored.</small></p>
         '''.format(user.username)
         '''
-        send_email('[Madblog] 导出文章',
+        send_email('[Genesis Forum] 导出文章',
                    sender=app.config['MAIL_SENDER'],
                    recipients=[user.email],
                    text_body=text_body,

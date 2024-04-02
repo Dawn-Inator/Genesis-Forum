@@ -1,31 +1,111 @@
 <template>
   <div class="container">
-    <h1>{{ $t('auth.login.sign-in') }}</h1>
-    <div class="row">
-      <div class="col-md-4">
-        <form @submit.prevent="onSubmit">
-          <div class="form-group" v-bind:class="{'u-has-error-v1': loginForm.usernameError}">
+
+        <div class="row justify-content-center">
+          <div class="col-md-6 title-background">
+
+          </div>
+        </div>
+
+    <!-- 登录表单居中显示 -->
+    <div class="row justify-content-center">
+
+      <div class="col-md-6">
+        <form @submit.prevent="onSubmit" class="shadow p-4 rounded">
+          <div class="form-group" v-bind:class="{'has-error': loginForm.usernameError}">
             <label for="username">{{ $t('auth.login.username') }}</label>
             <input type="text" v-model="loginForm.username" class="form-control" id="username" placeholder="">
-            <small class="form-control-feedback" v-show="loginForm.usernameError">{{ loginForm.usernameError }}</small>
+            <small class="text-danger" v-show="loginForm.usernameError">{{ loginForm.usernameError }}</small>
           </div>
-          <div class="form-group" v-bind:class="{'u-has-error-v1': loginForm.passwordError}">
+          <div class="form-group" v-bind:class="{'has-error': loginForm.passwordError}">
             <label for="password">{{ $t('auth.login.password') }}</label>
             <input type="password" v-model="loginForm.password" class="form-control" id="password" placeholder="">
-            <small class="form-control-feedback" v-show="loginForm.passwordError">{{ loginForm.passwordError }}</small>
+            <small class="text-danger" v-show="loginForm.passwordError">{{ loginForm.passwordError }}</small>
           </div>
-          <button type="submit" class="btn btn-primary">{{ $t('auth.login.sign-in') }}</button>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">{{ $t('auth.login.sign-in') }}</button>
+          </div>
         </form>
       </div>
     </div>
-    <br>
-    <p>{{ $t('auth.login.new-user') }} <router-link to="/register">{{ $t('auth.login.click-register') }}</router-link></p>
-    <p>
-        {{ $t('auth.login.forgot-pass') }}
-        <router-link v-bind:to="{ name: 'ResetPasswordRequest' }">{{ $t('auth.login.click-reset') }}</router-link>
-    </p>
+
+    <!-- 链接居中显示 -->
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-8 text-center">
+        <p>{{ $t('auth.login.new-user') }} <router-link to="/register" style="color: blue;">{{ $t('auth.login.click-register') }}</router-link></p>
+        <p>
+          {{ $t('auth.login.forgot-pass') }}
+          <router-link v-bind:to="{ name: 'ResetPasswordRequest' }" style="color: blue;">{{ $t('auth.login.click-reset') }}</router-link>
+        </p>
+      </div>
+    </div>
+
+    </div>
+
   </div>
 </template>
+
+<style scoped>
+
+.title-background {
+  background-image: url('~@/assets/Dark-Night.png');
+  background-size: cover; /* 或者 'contain' 根据实际效果选择 */
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 20px;
+  margin-bottom: 20px; /* 与表单间隔 */
+  min-height: 300px; /* 最小高度，根据背景图片内容调整 */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 使文本垂直居中 */
+}
+
+.link-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.link-button:hover, .link-button:focus {
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+}
+
+.text-accent {
+  color: #007bff; /* 调整为你喜欢的颜色 */
+}
+
+/* 可选：如果你想要特别突出“忘记密码”链接 */
+.forgot-password-link {
+  color: #dc3545; /* Bootstrap的危险颜色 */
+}
+
+.forgot-password-link:hover {
+  color: #c82333; /* 深一点的红色 */
+}
+
+.login-background {
+  background: url('../../assets/The-Earth-BG.png') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  background-color: rgba(255, 255, 255, 0.8); /* 给表单添加半透明的白色背景 */
+  border-radius: 15px; /* 可选：为表单添加圆角 */
+  margin-top: -100px; /* 根据需要调整，确保表单在视窗中垂直居中 */
+}
+
+</style>
+
 
 <script>
 import store from '../../store'

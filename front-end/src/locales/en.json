@@ -7,6 +7,7 @@
         "login": {
             "username": "Username",
             "password": "Password",
+            "register": "Register",
             "sign-in": "Sign In",
             "new-user": "New User?",
             "click-register": "Click to Register!",

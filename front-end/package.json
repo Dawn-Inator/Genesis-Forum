@@ -15,6 +15,7 @@
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "popper.js": "^1.14.4",
+    "turnstile": "^5.0.5",
     "vue": "^2.5.2",
     "vue-i18n": "^8.10.0",
     "vue-markdown": "^2.2.4",

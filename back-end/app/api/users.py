@@ -49,25 +49,25 @@ def create_user():
 
     text_body = '''
     Dear {},
-    Welcome to Madblog!
+    Welcome to Genesis Forum !
     To confirm your account please click on the following link: {}
     Sincerely,
-    The Madblog Team
+    The Genesis Team
     Note: replies to this email address are not monitored.
     '''.format(user.username, confirm_url)
 
     html_body = '''
     <p>Dear {0},</p>
-    <p>Welcome to <b>Madblog</b>!</p>
+    <p>Welcome to <b>Genesis Forum</b>!</p>
     <p>To confirm your account please <a href="{1}">click here</a>.</p>
     <p>Alternatively, you can paste the following link in your browser's address bar:</p>
     <p><b>{1}</b></p>
     <p>Sincerely,</p>
-    <p>The Madblog Team</p>
+    <p>The Genesis Team</p>
     <p><small>Note: replies to this email address are not monitored.</small></p>
     '''.format(user.username, confirm_url)
 
-    send_email('[Madblog] Confirm Your Account',
+    send_email('[Genesis Forum] Confirm Your Account',
                sender=current_app.config['MAIL_SENDER'],
                recipients=[user.email],
                text_body=text_body,
@@ -681,25 +681,25 @@ def resend_confirmation():
 
     text_body = '''
     Dear {},
-    Welcome to Madblog!
+    Welcome to Genesis Forum!
     To confirm your account please click on the following link: {}
     Sincerely,
-    The Madblog Team
+    The Genesis Team
     Note: replies to this email address are not monitored.
     '''.format(g.current_user.username, data.get('confirm_email_base_url') + token)
 
     html_body = '''
     <p>Dear {0},</p>
-    <p>Welcome to <b>Madblog</b>!</p>
+    <p>Welcome to <b>Genesis Forum</b>!</p>
     <p>To confirm your account please <a href="{1}">click here</a>.</p>
     <p>Alternatively, you can paste the following link in your browser's address bar:</p>
     <p><b>{1}</b></p>
     <p>Sincerely,</p>
-    <p>The Madblog Team</p>
+    <p>The Genesis Team</p>
     <p><small>Note: replies to this email address are not monitored.</small></p>
     '''.format(g.current_user.username, data.get('confirm_email_base_url') + token)
 
-    send_email('[Madblog] Confirm Your Account',
+    send_email('[Genesis Forum] Confirm Your Account',
                sender=current_app.config['MAIL_SENDER'],
                recipients=[g.current_user.email],
                text_body=text_body,
@@ -755,7 +755,7 @@ def reset_password_request():
         To reset your password click on the following link: {1}
         If you have not requested a password reset simply ignore this message.
         Sincerely,
-        The Madblog Team
+        The Genesis Team
         Note: replies to this email address are not monitored.
         '''.format(user.username, data.get('confirm_email_base_url') + token)
 
@@ -766,11 +766,11 @@ def reset_password_request():
         <p><b>{1}</b></p>
         <p>If you have not requested a password reset simply ignore this message.</p>
         <p>Sincerely,</p>
-        <p>The Madblog Team</p>
+        <p>The Genesis Team</p>
         <p><small>Note: replies to this email address are not monitored.</small></p>
         '''.format(user.username, data.get('confirm_email_base_url') + token)
 
-        send_email('[Madblog] Reset Your Password',
+        send_email('[Genesis Forum] Reset Your Password',
                    sender=current_app.config['MAIL_SENDER'],
                    recipients=[user.email],
                    text_body=text_body,
