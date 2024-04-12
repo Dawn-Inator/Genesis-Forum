@@ -25,7 +25,7 @@
 
           <div class="cf-turnstile" data-sitekey="0x4AAAAAAAWIZbWOBsTyF9ID" data-callback="javascriptCallback"></div>
 
-          <div class="text-center" v-if="cf_token">
+          <div class="text-center" v-if="!cf_token">
             <button type="submit" class="btn btn-primary">{{ $t('auth.login.sign-in') }}</button>
           </div>
 

@@ -28,7 +28,6 @@ def create_app(config_class=None):
 
     return app
 
-
 def configure_app(app, config_class):
     app.config.from_object(config_class)
     # 不检查路由中最后是否有斜杠/

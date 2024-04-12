@@ -1,6 +1,18 @@
 <template>
   <div class="container">
 
+    <div class="btn-group my-3 d-flex justify-content-center" role="group" aria-label="Categories">
+          <button type="button" class="btn gradient-btn" @click="getPosts()" style="border-radius: 10px;">
+            全部
+          </button>
+          <button v-for="category in categories" :key="category.id"
+                  @click="getPostsByCategory(category.id)"
+                  type="button"
+                  class="btn gradient-btn" style="border-radius: 10px;">
+            {{ category.name }}
+          </button>
+    </div>
+
     <!-- Modal: Edit Post -->
     <div data-backdrop="static" class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -53,12 +65,21 @@
         <textarea v-model="postForm.body" class="form-control" id="postFormBody" rows="5" placeholder=" 内容"></textarea>
         <small class="form-control-feedback" v-show="postForm.bodyError">{{ postForm.bodyError }}</small>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+
+      <div class="form-group d-flex align-items-center">
+          <select id="postFormCategory" class="form-control custom-select" v-model="postForm.category_id" style="width: 80%;">
+            <option disabled value="">请选择一个分类</option>
+            <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+          </select>
+          <button type="submit" class="btn btn-primary ml-2">Submit</button>
+          <small class="form-control-feedback" v-show="postForm.categoryError">{{ postForm.categoryError }}</small>
+        </div>
+
     </form>
 
     <div class="card border-0 g-mb-15 my-3">
       <!-- Panel Header -->
-      <div class="card-header d-flex align-items-center justify-content-between g-bg-primary text-white">
+      <div class="card-header d-flex align-items-center justify-content-between g-bg-blue text-white">
           <h3 class="h6 mb-0">
             <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> All Posts <small v-if="posts">(共 {{ posts._meta.total_items }} 篇, {{ posts._meta.total_pages }} 页)</small>
           </h3>
@@ -116,6 +137,47 @@
 </template>
 
 <style scoped>
+.btn-group {
+  display: flex;
+  justify-content: center; /* 水平居中按钮组 */
+  flex-wrap: wrap; /* 允许按钮换行 */
+}
+
+.gradient-btn {
+  color: white; /* 设置按钮文本为白色 */
+  background-image: linear-gradient(to right, #444dec, #51fc51); /* 渐变背景色 */
+  border: none; /* 去除边框 */
+  margin: 0 30px; /* 增加按钮间的间距 */
+  transition: transform 0.3s ease-in-out; /* 平滑变换效果 */
+}
+
+.gradient-btn:hover {
+  transform: translateY(-2px); /* 鼠标悬停时上移按钮 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+}
+
+.custom-select {
+  flex-grow: 1; /* 选择框占据剩余空间 */
+  margin-right: 10px; /* 添加右边距，使按钮与选择框分开 */
+}
+
+.btn-primary {
+  flex-shrink: 0; /* 防止按钮在小屏幕上缩小 */
+}
+
+/* 可以在这里添加其他美化样式，如下 */
+.custom-select {
+  border-radius: 0.25rem;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* 更深的蓝色 */
+}
+
+.g-bg-blue {
+    background-color: #007bff !important; /* Bootstrap 4 primary color */
+}
+
 /* 基础重设与公共样式 */
 .form-control, .btn {
   border-radius: 0.25rem;
@@ -175,6 +237,10 @@ a:hover {
   text-decoration: none;
   color: #0056b3;
 }
+
+.btn-outline-primary {
+  margin: 0.5rem;
+}
 </style>
 
 
@@ -198,13 +264,16 @@ export default {
     return {
       sharedState: store.state,
       posts: '',
+      categories: [],
       postForm: {
         title: '',
         summary: '',
         body: '',
+        category_id: null,
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: null,
-        bodyError: null
+        bodyError: null,
+        categoryError: null,
       },
       editPostForm: {
         title: '',
@@ -217,6 +286,36 @@ export default {
     }
   },
   methods: {
+    getPostsByCategory(categoryId) {
+          let page = 1;
+          let per_page = 5;
+          if (typeof this.$route.query.page != 'undefined') {
+            page = this.$route.query.page;
+          }
+          if (typeof this.$route.query.per_page != 'undefined') {
+            per_page = this.$route.query.per_page;
+          }
+          const path = `/api/posts/?category_id=${categoryId}&page=${page}&per_page=${per_page}`;
+          this.$axios.get(path)
+            .then((response) => {
+              this.posts = response.data;
+            })
+            .catch((error) => {
+              console.error("Failed to load posts:", error);
+            });
+        },
+
+    getCategories() {
+      this.$axios.get('/api/categories')
+        .then(response => {
+          console.log("Categories loaded:", response.data); // 查看返回的数据
+          this.categories = response.data; // 确保这是正确的数据结构
+        })
+        .catch(error => {
+          console.error("Failed to load categories:", error);
+        });
+    },
+
     getPosts () {
       let page = 1
       let per_page = 5
@@ -260,6 +359,21 @@ export default {
         $('#addPostForm .md-editor').closest('.form-group').removeClass('u-has-error-v1')
       }
 
+      if (!this.postForm.title) {
+        this.postForm.errors++
+        this.postForm.titleError = 'Title is required.'
+      } else {
+        this.postForm.titleError = null
+      }
+
+      if (!this.postForm.category_id) {
+        this.postForm.errors++
+        this.postForm.categoryError = 'Category is required.'
+      } else {
+        this.postForm.categoryError = null
+      }
+
+
       if (this.postForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false
@@ -269,8 +383,10 @@ export default {
       const payload = {
         title: this.postForm.title,
         summary: this.postForm.summary,
-        body: this.postForm.body
-      }
+        body: this.postForm.body,
+        category_id: this.postForm.category_id // 确保这里使用了正确的字段
+      };
+
       this.$axios.post(path, payload)
         .then((response) => {
           // handle success
@@ -278,7 +394,8 @@ export default {
           this.$toasted.success('Successed add a new post.', { icon: 'fingerprint' })
           this.postForm.title = '',
           this.postForm.summary = '',
-          this.postForm.body = ''
+          this.postForm.body = '',
+          console.log("Data fetched:", response.data);
         })
         .catch((error) => {
           // handle error
@@ -287,18 +404,19 @@ export default {
               this.postForm.titleError = error.response.data.message[field]
             } else if (field == 'body') {
               this.postForm.bodyError = error.response.data.message[field]
-            } else {
+            } else if (field == 'category') {
+              this.postForm.categoryError = error.response.data.message[field]
+            } else{
               this.$toasted.error(error.response.data.message[field], { icon: 'fingerprint' })
             }
           }
         })
     },
-    onEditPost (post) {
-      // 不要使用对象引用赋值： this.editPostForm = post
-      // 这样是同一个 post 对象，用户在 editPostForm 中的操作会双向绑定到该 post 上， 你会看到 modal 下面的博客也在变
-      // 如果用户修改了一些数据，但是点了 cancel，你就必须在 onResetUpdatePost() 中重新加载一次博客列表，不然用户会看到修改后但未提交的不对称信息
-      this.editPostForm = Object.assign({}, post)
+    onEditPost(post) {
+      this.editPostForm = Object.assign({}, post, { category_id: post.category_id });
     },
+
+
     onSubmitUpdatePost () {
       this.editPostForm.errors = 0  // 重置
       // 每次提交前先移除错误，不然错误就会累加
@@ -335,7 +453,7 @@ export default {
       const payload = {
         title: this.editPostForm.title,
         summary: this.editPostForm.summary,
-        body: this.editPostForm.body
+        body: this.editPostForm.body,
       }
       this.$axios.put(path, payload)
         .then((response) => {
@@ -411,6 +529,7 @@ export default {
   },
   created () {
     this.getPosts()
+    this.getCategories()
     // 初始化 bootstrap-markdown 插件
     $(document).ready(function() {
       $("#postFormBody, #editPostFormBody").markdown({
@@ -426,6 +545,6 @@ export default {
     // 注意：要先执行 next() 不然 this.$route.query 还是之前的
     next()
     this.getPosts()
-  }
+  },
 }
 </script>

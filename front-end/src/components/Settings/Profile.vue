@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-5">
+  <div class="container">
     <div class="profile-form-wrapper rounded-lg shadow-lg py-5 px-4">
       <h2 class="text-center mb-4">Edit Your Public Profile</h2>
       <form @submit.prevent="onSubmit">

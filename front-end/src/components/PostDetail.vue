@@ -67,7 +67,7 @@
             <article v-if="post" class="g-mb-30 g-pt-15 g-pb-15">
               <header class="article-header g-mb-30">
                 <!-- 标题和作者等信息，应用上述CSS -->
-              <h1 class="g-color-primary g-mb-15" v-html="post.title"></h1>
+              <h1 class="g-mb-15" v-html="post.title"></h1>
             <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
               <li v-if="post.author && (post.author.id == sharedState.user_id || sharedState.user_perms.includes('admin'))" class="list-inline-item">
                 <button v-on:click="onEditPost(post)" class="btn btn-xs u-btn-outline-purple g-mr-5" data-toggle="modal" data-target="#editPostModal">编辑</button>
@@ -118,7 +118,7 @@
 
           <div id="like-post" class="row">
             <div class="col-lg-3">
-              <button v-on:click="onLikeOrUnlikePost(post)" v-bind:class="btnOutlineColor" class="btn btn-block g-rounded-50 g-py-12 g-mb-10">
+              <button v-on:click="onLikeOrUnlikePost(post)" v-bind:class="btnOutlineColor" class="btn btn-block btn-like g-rounded-50 g-py-12 g-mb-10">
                 <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i> 喜欢<span v-if="post.likers_id && post.likers_id.length > 0"> | {{ post.likers_id.length }}</span>
               </button>
             </div>
@@ -358,7 +358,7 @@
 
         <div id="sticker" class="g-mb-50">
           <div id="tocHeader" class="u-heading-v3-1 g-mb-15">
-              <h2 class="h5 u-heading-v3__title g-color-primary text-uppercase g-brd-primary">文章目录</h2>
+              <h2 class="h5 u-heading-v3__title text-uppercase">文章目录</h2>
           </div>
           <div id="toc" class="toc"></div>
         </div>
@@ -508,6 +508,47 @@
 
 .u-link-v5:hover, .comment-author:hover {
   color: #138496; /* 鼠标悬停颜色 */
+}
+
+/* 喜欢按钮样式调整 */
+.btn-like {
+  background-image: linear-gradient(45deg, #ff758c 0%, #ff7eb3 100%); /* 渐变背景 */
+  color: #fff; /* 白色文字 */
+  border: none; /* 无边框 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* 平滑变换效果 */
+}
+
+.btn-like:hover {
+  transform: translateY(-2px); /* 悬停时上移 */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* 悬停时增加阴影 */
+}
+
+/* 上一篇和下一篇按钮样式 */
+.u-pagination-v1__item {
+  background-color: #eee; /* 背景颜色 */
+  color: #333; /* 文字颜色 */
+  border: none; /* 无边框 */
+  transition: all 0.3s ease; /* 平滑过渡效果 */
+}
+
+.u-pagination-v1__item--hover, .u-pagination-v1__item:hover {
+  background-color: #007bff; /* 悬停背景颜色 */
+  color: #fff; /* 悬停文字颜色 */
+  transform: scale(1.05); /* 悬停时放大 */
+}
+
+/* 适用于不可点击的分页按钮 */
+.u-pagination-v1__item--disabled {
+  opacity: 0.6; /* 半透明显示 */
+  cursor: not-allowed; /* 不可点击的鼠标样式 */
+}
+
+/* 按钮基本样式调整 */
+.btn {
+  border-radius: 0.25rem; /* 圆角调整 */
+  padding: 0.5rem 1rem; /* 内边距调整 */
+  font-size: 0.9rem; /* 字体大小 */
 }
 
 </style>

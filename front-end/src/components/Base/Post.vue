@@ -10,10 +10,16 @@
     </router-link>
 
     <div class="media-body">
+
       <div class="g-mb-15">
-        <h5 class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${post.author.id}` }" class="g-text-underline--none--hover">{{ post.author.name || post.author.username }}</router-link> <span class="h6">发布了文章<router-link v-bind:to="{ name: 'PostDetail', params: { id: post.id } }" class="g-text-underline--none--hover">《<span v-html="post.title"></span>》</router-link></span></h5>
+        <router-link v-bind:to="{ path: `/user/${post.author.id}` }" class="author-link">{{ post.author.name || post.author.username }}</router-link>
+        <h5 class="h5 g-color-gray-dark-v1 mb-0">
+          <router-link v-bind:to="{ name: 'PostDetail', params: { id: post.id } }" class="g-text-underline--none--hover article-title"><span v-html="post.title"></span></router-link>
+          <span class="category-tag">{{ categoryName }}</span>
+        </h5>
         <span class="g-color-gray-dark-v4 g-font-size-12">{{ $moment(post.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
       </div>
+
 
       <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
       v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
@@ -40,6 +46,7 @@
               <i class="icon-bubble g-pos-rel g-top-1 g-mr-3"></i> {{ post.comments_count }}
             </router-link>
           </li>
+
         </ul>
         <ul class="list-inline mb-0 ml-auto">
           <li class="list-inline-item g-mr-5">
@@ -59,78 +66,114 @@
 </template>
 
 <style scoped>
-.media {
-  border: 1px solid #dee2e6; /* 细边框 */
-  border-left: 5px solid #007bff; /* 加粗左侧边框以突出显示 */
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 0.5rem; /* 增加圆角大小 */
-  background-color: #ffffff; /* 使用纯白背景色 */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影以提升层次感 */
-  transition: box-shadow 0.3s ease; /* 鼠标悬停时增加阴影效果 */
+.author-link {
+  text-decoration: none; /* 添加这行以去除下划线 */
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.media img {
-  border: 3px solid #f8f9fa; /* 图像边框颜色 */
-  transition: transform 0.3s ease; /* 图像悬停放大效果 */
+.article-title {
+  font-weight: 800;
+  margin-right: 10px;
+}
+
+.category-tag {
+  display: inline-block;
+  background-image: linear-gradient(to right, #ca3cdd, #53bdba); /* 渐变蓝色背景 */
+  color: white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  vertical-align: middle;
+}
+
+
+/* 其他样式保持不变 */
+
+
+.media {
+  border: 1px solid #dee2e6;
+  border-left: 5px solid #007bff; /* 左边框蓝色 */
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
 }
 
 .media:hover {
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* 鼠标悬停时阴影更明显 */
+  box-shadow: 0 4px 8px rgba(215, 23, 232, 0.2);
 }
 
 .media img {
-  border: 2px solid #ffffff; /* 保持图片边框与背景一致 */
-  transition: transform 0.3s ease; /* 保留图像悬停放大效果 */
+  border: 2px solid #ffffff;
+  transition: transform 0.3s ease;
 }
 
 .u-badge-v2--xs {
-  background-color: #ff0000; /* 使用更鲜艳的红色 */
-  width: 10px; /* 增大标记尺寸 */
+  background-color: #ff0000;
+  width: 10px;
   height: 10px;
-  border-radius: 50%; /* 圆形标记 */
+  border-radius: 50%;
 }
 
 .markdown-body {
-  font-size: 0.9rem; /* 细微调整字体大小 */
-  color: #333; /* 深色字体 */
-  line-height: 1.5; /* 增加行高改善可读性 */
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.5;
 }
 
-/* 按钮样式调整 */
+/* 为按钮添加现代化的蓝色风格 */
 .btn-xs, .g-color-gray-dark-v5 {
-  transition: all 0.2s ease; /* 平滑过渡效果 */
+  transition: all 0.2s ease;
+  background-image: linear-gradient(to right, #007bff, #0056b3); /* 渐变蓝色背景 */
+  color: #ffffff; /* 文字颜色为白色 */
+  border-radius: 20px; /* 边框圆角 */
+  padding: 5px 10px; /* 调整内边距 */
+  font-size: 0.8rem; /* 调整字体大小 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影 */
 }
 
 .btn-xs:hover {
-  transform: translateY(-2px); /* 按钮轻微上移 */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 按钮添加阴影 */
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 悬浮时阴影加深 */
 }
 
-/* Icon样式调整 */
+/* 作者名字和文章标题的蓝色表示 */
+h5 a, .h6 a {
+  color: #007bff !important; /* 设置链接颜色为蓝色 */
+  transition: color 0.2s ease; /* 平滑颜色过渡效果 */
+}
+
+h5 a:hover, .h6 a:hover {
+  color: #cd42f3 !important; /* 鼠标悬停时颜色加深 */
+}
+
 .icon-eye, .icon-heart, .icon-bubble {
   margin-right: 5px;
 }
 
 .list-inline-item .btn {
-  margin: 0 5px; /* 调整按钮间距 */
+  margin: 0 5px;
 }
 
-/* 链接和图标的颜色 */
 .g-color-gray-dark-v5 {
-  color: #343a40 !important; /* 更深的灰色 */
+  color: #c2d9ef !important;
 }
 
 .g-color-gray-dark-v5:hover {
-  color: #0056b3; /* 链接颜色变化，保持一致性 */
+  color: #ff6bff !important; /* 链接和图标悬停时的蓝色 */
 }
-
 </style>
 
 
+
+
 <script>
+import axios from 'axios' // 确保你已经安装并导入了axios
 import store from '../../store'
-// 导入 vue-markdown 组件解析 markdown 原文为　HTML
 import VueMarkdown from 'vue-markdown'
 
 export default {
@@ -140,17 +183,32 @@ export default {
   },
   data () {
     return {
-      sharedState: store.state
+      sharedState: store.state,
+      categories: [] // 存储分类列表
     }
   },
-  /*
+  created() {
+    this.fetchCategories(); // 组件创建时获取分类
+  },
+  methods: {
+    fetchCategories() {
+      // 获取所有分类
+      axios.get('/api/categories/').then(response => {
+        this.categories = response.data;
+      }).catch(error => {
+        console.error("There was an error fetching the categories:", error);
+      });
+    },
+    findCategoryName(categoryId) {
+      const category = this.categories.find(c => c.id === categoryId);
+      return category ? category.name : '默认';
+    },
+  },
   computed: {
-    leftBrdColor: function () {
-      const colors = ['primary', 'blue', 'red', 'purple', 'orange', 'yellow', 'aqua', 'cyan', 'teal', 'brown', 'pink', 'black']
-      let index = Math.floor((Math.random() * colors.length))
-      return 'g-brd-' + colors[index] + '-left'
+    categoryName() {
+      return this.findCategoryName(this.post.category_id || 0);
     }
-  }
-  */
+  },
 }
 </script>
+

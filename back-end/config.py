@@ -13,13 +13,15 @@ class Config(object):
     # 日志输出到控制台还是日志文件中
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT', 'false').lower() in ['true', 'on', '1']
     # 邮件配置
-    ADMINS = [x.strip() for x in os.environ.get('ADMINS').split(',')]  # 管理员的邮箱地址
-    MAIL_SERVER = os.environ.get('MAIL_SERVER')
-    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
-    MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL', 'false').lower() in ['true', 'on', '1']
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    MAIL_SENDER = os.environ.get('MAIL_SENDER')
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_SSL = 1
+    MAIL_USERNAME='dawn.inator.bot@gmail.com'
+    MAIL_PASSWORD='kzfaebxscogkapzv'
+    MAIL_SENDER='madblog bot'
+
+    ADMINS = ['dawn.inator.lzl@gmail.com']  # 管理员的邮箱地址
+
     # 分页设置
     POSTS_PER_PAGE = 10
     USERS_PER_PAGE = 10

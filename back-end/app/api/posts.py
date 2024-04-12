@@ -3,7 +3,7 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import error_response, bad_request
 from app.extensions import db
-from app.models import Permission, Post, Comment
+from app.models import Permission, Post, Comment, Category
 from app.utils.decorator import permission_required
 
 
@@ -22,12 +22,16 @@ def create_post():
         message['title'] = 'Title must less than 255 characters.'
     if 'body' not in data or not data.get('body').strip():
         message['body'] = 'Body is required.'
+    if 'category_id' not in data:
+        message['category_id'] = 'Category is required.'
     if message:
         return bad_request(message)
 
     post = Post()
     post.from_dict(data)
     post.author = g.current_user  # 通过 auth.py 中 verify_token() 传递过来的（同一个request中，需要先进行 Token 认证）
+    post.category_id = data.get('category_id')
+
     db.session.add(post)
     # 给文章作者的所有粉丝发送新文章通知
     for user in post.author.followers:
@@ -43,15 +47,18 @@ def create_post():
 
 @bp.route('/posts/', methods=['GET'])
 def get_posts():
-    '''返回文章集合，分页'''
+    '''返回文章集合，分页，可以按分类过滤'''
     page = request.args.get('page', 1, type=int)
-    per_page = min(
-        request.args.get(
-            'per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
-    data = Post.to_collection_dict(
-        Post.query.order_by(Post.timestamp.desc()), page, per_page,
-        'api.get_posts')
+    per_page = min(request.args.get('per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
+    category_id = request.args.get('category_id', type=int)  # 接收分类ID
+
+    query = Post.query.order_by(Post.timestamp.desc())
+    if category_id:
+        query = query.filter_by(category_id=category_id)  # 根据分类ID过滤
+
+    data = Post.to_collection_dict(query, page, per_page, 'api.get_posts')
     return jsonify(data)
+
 
 
 @bp.route('/posts/<int:id>', methods=['GET'])
@@ -102,7 +109,15 @@ def update_post(id):
     if message:
         return bad_request(message)
 
+    category_id = data.get('category_id')
+    if category_id:
+        category = Category.query.get(category_id)
+        if not category:
+            return error_response(404, 'Category not found.')
+        post.category = category
+
     post.from_dict(data)
+
     db.session.commit()
     return jsonify(post.to_dict())
 
@@ -273,3 +288,17 @@ def get_search_post(id):
     else:
         data['_links']['prev'] = None
     return jsonify(data)
+
+
+@bp.route('/categories/', methods=['GET'])
+def get_categories():
+    categories_list = [
+        {'id': 1, 'name': '科技'},
+        {'id': 2, 'name': '生活'},
+        {'id': 3, 'name': '游戏'},
+        {'id': 4, 'name': '经济'},
+        {'id': 5, 'name': '时尚'},
+        {'id': 6, 'name': '文化'}
+    ]
+
+    return jsonify(categories_list)

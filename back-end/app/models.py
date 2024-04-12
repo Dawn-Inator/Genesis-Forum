@@ -623,6 +623,7 @@ class Post(SearchableMixin, PaginatedAPIMixin, db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic',
                                cascade='all, delete-orphan')
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     # 博客文章与喜欢/收藏它的人是多对多关系
     likers = db.relationship('User', secondary=posts_likes, backref=db.backref('liked_posts', lazy='dynamic'), lazy='dynamic')
 
@@ -646,6 +647,7 @@ class Post(SearchableMixin, PaginatedAPIMixin, db.Model):
             'body': self.body,
             'timestamp': self.timestamp,
             'views': self.views,
+            'category_id': self.category_id if self.category_id else None,
             'likers_id': [user.id for user in self.likers],
             'likers': [
                 {
@@ -675,6 +677,12 @@ class Post(SearchableMixin, PaginatedAPIMixin, db.Model):
         for field in ['title', 'summary', 'body', 'timestamp', 'views']:
             if field in data:
                 setattr(self, field, data[field])
+        if 'category_name' in data:
+            category = Category.query.filter_by(name=data['category_name']).first()
+            if category is None:
+                category = Category(name=data['category_name'])
+                db.session.add(category)
+            self.category = category
 
     def is_liked_by(self, user):
         '''判断用户 user 是否已经收藏过该文章'''
@@ -899,3 +907,10 @@ class Task(PaginatedAPIMixin, db.Model):
 
     def __repr__(self):
         return '<Task {}>'.format(self.id)
+
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), unique=True, nullable=False)
+    posts = db.relationship('Post', backref='category', lazy='dynamic')

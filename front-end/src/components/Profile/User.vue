@@ -1,5 +1,6 @@
 <template>
   <section class="user-profile-section">
+    <div class="container">
     <!-- Modal: Send Messages -->
     <div class="modal fade custom-modal" id="sendMessagesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -28,14 +29,14 @@
     <!-- End Modal: Send Messages -->
 
     <!-- 用户所有运行中的后台任务的进度 -->
-    <div class="container mt-5">
+
       <alert
         v-for="(alert, index) in alerts" :key="index"
         v-bind:id="alert.id"
         v-bind:variant="alert.variant"
         v-bind:message="alert.message">
       </alert>
-    </div>
+
 
     <!-- 用户信息 -->
     <div v-if="user" class="user-info-box">
@@ -45,7 +46,9 @@
             <!-- User Image -->
             <div class="g-mb-20">
               <div class="avatar-container">
-                <img v-if="user._links.avatar" class="img-fluid user-avatar" v-bind:src="user._links.avatar" v-bind:alt="user.name || user.username">
+                <a href="https://gravatar.com/" target="_blank">
+                  <img v-if="user._links.avatar" class="img-fluid user-avatar" v-bind:src="user._links.avatar" v-bind:alt="user.name || user.username">
+                </a>
               </div>
             </div>
             <!-- User Image -->
@@ -108,38 +111,20 @@
       </div>
     </div>
 
-    <!-- 当前登录的用户发表新博客文章 -->
+    </div>
+
     <div class="container">
 
       <div v-if="sharedState.is_authenticated && $route.params.id == sharedState.user_id && sharedState.user_perms.includes('write')" class="publish-new-post">
         <!-- Panel Header -->
         <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
-          <h3 class="h6 mb-0">
-            <i class="icon-fire g-pos-rel g-top-1 g-mr-5"></i> Publish New Post
+          <h3 class="h6 mb-0 " style="font-size: 15px;">
+            <i class="icon-fire g-pos-rel g-top-1 g-mr-5"></i> Welcome to Genesis Forum !!!
           </h3>
-          <div class="dropdown g-mb-10 g-mb-0--md">
-            <span class="d-block g-mr-minus-5 g-pa-5">
-              <i class="icon-options-vertical g-pos-rel g-top-1"></i>
-            </span>
-          </div>
+
         </div>
         <!-- End Panel Header -->
       </div>
-
-      <form id="addPostForm" v-if="sharedState.is_authenticated && $route.params.id == sharedState.user_id && sharedState.user_perms.includes('write')" @submit.prevent="onSubmitAddPost" class="g-mb-40">
-        <div class="form-group" v-bind:class="{'u-has-error-v1': postForm.titleError}">
-          <input type="text" v-model="postForm.title" class="form-control" id="postFormTitle" placeholder="标题">
-          <small class="form-control-feedback" v-show="postForm.titleError">{{ postForm.titleError }}</small>
-        </div>
-        <div class="form-group">
-          <input type="text" v-model="postForm.summary" class="form-control" id="postFormSummary" placeholder="摘要">
-        </div>
-        <div class="form-group">
-          <textarea v-model="postForm.body" class="form-control" id="postFormBody" rows="5" placeholder=" 内容"></textarea>
-          <small class="form-control-feedback" v-show="postForm.bodyError">{{ postForm.bodyError }}</small>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
 
     </div>
   </section>
@@ -237,34 +222,13 @@
 }
 
 .btn-primary {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: #0074f1;
 }
 
 .btn-primary:hover {
   background-color: #004099;
-  border-color: #003675;
 }
 
-/* 发布新博客文章部分美化 */
-.publish-new-post {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.publish-new-post .form-control {
-  border: 1px solid #ced4da;
-  border-radius: .25rem;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-
-.publish-new-post .form-control:focus {
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-}
 
 /* Tab 样式调整 */
 .nav-tabs .nav-item .nav-link.active {

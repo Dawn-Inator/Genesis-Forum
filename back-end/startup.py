@@ -60,3 +60,10 @@ def test(coverage):
         print('')
         print('HTML report be stored in: %s' % os.path.join(covdir, 'index.html'))
         COV.erase()
+
+@app.cli.command("clear-db")
+def clear_db_command():
+    """清除数据库中的所有数据。"""
+    db.drop_all()
+    db.create_all()
+    print("数据库已清空。")

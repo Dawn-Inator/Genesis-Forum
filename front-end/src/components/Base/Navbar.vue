@@ -1,143 +1,170 @@
 <template>
 <section>
   <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 20px;">
 
-      <div class="navbar-brand" v-if="sharedState.is_authenticated">
-      <router-link to="/" class="g-text-underline--none--hover" style="color: black;">
-        <img src="../../assets/GPT-logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-          ChatGPT
-      </router-link>
-      <a href="https://chatgpt.inator.site" class="g-text-underline--none--hover" style="color: purple;">Accessing</a>
-      </div>
+  <nav class="navbar navbar-expand-lg navbar-modern my-4" >
+      <!-- Logo and home link with conditionally displayed based on authentication status -->
 
-      <div class="navbar-brand" v-else>
-      <router-link to="/" class="g-text-underline--none--hover" style="color: black;">
-        <img src="../../assets/github-mark.png" width="30" height="30" class="d-inline-block align-top" alt="">
-          Wecome to
-      </router-link>
-      <a href="https://github.com/Dawn-Inator/Genesis-Forum" class="g-text-underline--none--hover" style="color: purple;">Genesis-Forum</a>
-      </div>
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto mt-2 ">
-          <li class="nav-item active">
-            <router-link to="/" class="nav-link btn btn-info btn-sm btn-rounded" style="color: aliceblue;">Home <span class="sr-only">(current)</span></router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/ping" class="nav-link btn btn-info btn-sm btn-rounded" style="color: aliceblue;">Ping</router-link>
-          </li>
-          <li class="nav-item" v-if="sharedState.is_authenticated && sharedState.user_perms.includes('admin')">
-            <router-link to="/admin" class="nav-link btn btn-info btn-sm btn-rounded" style="color: aliceblue;">Admin</router-link>
-          </li>
-        </ul>
-
-         <div v-if="sharedState.is_authenticated" class="form-inline my-2 mr-5 ">
-              <div class="input-group">
-                <input v-model="searchForm.body" type="search" class="form-control" id="searchBody" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                  <button class="btn btn-primary" type="submit">Search</button>
-                </div>
-              </div>
-         </div>
-
-        <ul v-if="sharedState.is_authenticated" class="navbar-nav mr-auto mt-2 ">
-          <li class="nav-item ">
-            <router-link v-bind:to="{ path: '/notifications/comments' }" class="nav-link btn btn-warning btn-sm btn-rounded" >
-              <span class="text-shift-right" style="font-size: 15px; padding:0px;">
-                <i class="icon-education-033 u-line-icon-pro g-color-red g-font-size-16 g-pos-rel g-top-2 g-mr-3"></i>
-                Notifications
-              </span>
-              <span id="new_notifications_count" style="visibility: hidden;" class="u-label g-font-size-11 g-bg-aqua g-rounded-20 g-px-10">0</span>
-              </router-link>
-          </li>
-        </ul>
-
-        <ul v-if="sharedState.is_authenticated" class="nav navbar-nav navbar-right mr-auto ">
-          <li class=" nav-item dropdown">
-            <a class=" dropdown-toggle no-caret"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img v-bind:src="sharedState.user_avatar" class="g-brd-around g-brd-gray-light-v3 g-pa-2 rounded-circle rounded mCS_img_loaded " width="50" height="50">
-              <span class="btn btn-light" style="font-weight: bold; font-size: 20px;">{{ sharedState.user_name }}</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <router-link v-bind:to="{ path: `/user/${sharedState.user_id}` }" class="dropdown-item"><i class="icon-star g-pos-rel g-top-1 g-mr-5"></i> Your profile</router-link>
-              <router-link v-bind:to="{ name: 'PostsResource' }" class="dropdown-item"><i class="icon-share g-pos-rel g-top-1 g-mr-5"></i> Your resource</router-link>
-              <router-link v-bind:to="{ name: 'SettingProfile' }" class="dropdown-item"><i class="icon-settings g-pos-rel g-top-1 g-mr-5"></i> Settings</router-link>
-              <div class="dropdown-divider"></div>
-              <a v-on:click="handlerLogout" class="dropdown-item" href="#"><i class="icon-logout g-pos-rel g-top-1 g-mr-5"></i> Sign out</a>
+        <div class="navbar-brand" v-if="sharedState.is_authenticated">
+            <router-link to="/" class="g-text-underline--none--hover" style="color: black; padding: 10px;">
+              <img src="../../assets/GPT-logo.png" width="30" height="30" class="d-inline-block align-top">
+                ChatGPT
+            </router-link>
+            <a href="https://chatgpt.inator.site" class="g-text-underline--none--hover" style="color: purple;">Accessing</a>
             </div>
-          </li>
-        </ul>
 
-        <ul v-else class="nav navbar-nav navbar-right">
-          <li class="navbar-nav mr-auto mt-2">
-            <router-link to="/login" class="nav-link btn-primary btn-rounded" style="color: white;"><i class="icon-login g-pos-rel g-top-1 g-mr-5"></i> Sign in</router-link>
-          </li>
-        </ul>
+            <div class="navbar-brand" v-else>
+            <router-link to="/" class="g-text-underline--none--hover" style="color: black; padding: 10px;">
+              <img src="../../assets/github-mark.png" width="30" height="30" class="d-inline-block align-top">
+                Wecome to
+            </router-link>
+            <a href="https://github.com/Dawn-Inator/Genesis-Forum" class="g-text-underline--none--hover" style="color: purple;">Genesis-Forum</a>
+            </div>
 
-      </div>
-    </nav>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+              <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                          <router-link to="/" class="nav-link">Home</router-link>
+                        </li>
+                        <li class="nav-item">
+                          <router-link to="/ping" class="nav-link">Ping</router-link>
+                        </li>
+                        <li v-if="sharedState.is_authenticated && sharedState.user_perms.includes('admin')" class="nav-item">
+                          <router-link to="/admin" class="nav-link">Admin</router-link>
+                        </li>
+              </ul>
+
+               <form v-if="sharedState.is_authenticated" class="form-inline navbar-left mr-auto" @submit.prevent="onSubmitSearch">
+                         <input v-model="searchForm.body" id="searchBody" class="form-control mr-sm-2" type="search" placeholder="Search">
+                         <button class="btn btn-search-purple my-2 my-sm-0" type="submit">Search</button>
+                       </form>
+
+              <ul v-if="sharedState.is_authenticated" class="navbar-nav" style="padding-right: 20px;">
+                <li class="nav-item">
+                  <router-link to="/notifications/comments" class="nav-link">
+                    <span style="font-size: 16px; padding:5px;">
+                      Notifications
+                    </span>
+                    <span id="new_notifications_count" style="visibility: hidden;" class="u-label g-font-size-11 g-bg-aqua g-rounded-20 ">0</span>
+                  </router-link>
+                </li>
+              </ul>
+
+
+              <ul v-if="sharedState.is_authenticated" class="nav navbar-nav navbar-right mr-auto ">
+                <li class=" nav-item dropdown">
+                  <a class=" dropdown-toggle no-caret"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 30px;">
+                    <img v-bind:src="sharedState.user_avatar" class="g-brd-around g-brd-gray-light-v3 g-pa-2 rounded-circle rounded mCS_img_loaded " width="50" height="50">
+                    <span class="btn btn-user_avatar" style="font-weight: bold; font-size: 20px;">{{ sharedState.user_name }}</span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <router-link v-bind:to="{ path: `/user/${sharedState.user_id}` }" class="dropdown-item"><i class="icon-star g-pos-rel g-top-1 g-mr-5"></i> Your profile</router-link>
+                    <router-link v-bind:to="{ name: 'PostsResource' }" class="dropdown-item"><i class="icon-share g-pos-rel g-top-1 g-mr-5"></i> Your resource</router-link>
+                    <router-link v-bind:to="{ name: 'SettingProfile' }" class="dropdown-item"><i class="icon-settings g-pos-rel g-top-1 g-mr-5"></i> Settings</router-link>
+                    <a v-on:click="handlerLogout" class="dropdown-item" href="#"><i class="icon-logout g-pos-rel g-top-1 g-mr-5"></i> Sign out</a>
+                  </div>
+                </li>
+              </ul>
+
+              <ul v-else class="nav navbar-nav navbar-right">
+                <li class="navbar-nav mr-auto mt-2">
+                  <router-link to="/login" class="nav-link btn-rounded" style="font-size: 20px; padding-left: 10px;"><i class="icon-login g-pos-rel g-top-1 g-mr-5"></i> Sign in</router-link>
+                </li>
+              </ul>
+
+            </div>
+  </nav>
   </div>
 </section>
 </template>
 
+
 <style scoped>
 
-.container {
-  padding-top: 20px; /* 避免内容被悬浮的导航栏遮挡 */
+
+.btn-user_avatar:hover{
+  background-color: #00aaff;
 }
 
-/* 基础调整，保持原有的设计精髓 */
-.btn-rounded {
-  border-radius: 10px;
-  font-weight: bold;
-  margin-bottom: 10px; /* 保持 */
-  margin-left: 0.5rem; /* 保持 */
-  margin-right: 0.5rem; /* 保持 */
-  transition: background-color 0.3s ease; /* 平滑背景色变换 */
+.btn-search-purple {
+  background-image: linear-gradient(to right, #2df4f4, #d412f6); /* 渐变蓝色背景 */
+  color: white;
+  border: none; /* Optional: removes the border */
 }
 
-.text-shift-right {
-  margin-left: 20px; /* 维持原有的偏移，确保视觉上的平衡 */
+.btn-search-purple:hover {
+  background-image: linear-gradient(to right, #e61445, #f3e00b); /* 渐变蓝色背景 */
+  color: white;
+  border: none; /* Optional: removes the border */
 }
 
-/* 提升按钮和链接的交互感 */
-.nav-link:hover, .btn-nav:hover {
-  background-color: #0056b3; /* 深蓝色，增强悬停反馈 */
-  color: #ffffff;
-
+.navbar-modern {
+  background-color: #007bff; /* Vibrant blue */
+  border-radius: 60px; /* Rounded corners for modern look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  padding: 10px; /* Adequate padding for visual balance */
 }
 
-.nav-profile:hover{
-  padding: 10px;
-  background-color: #9ca7b3; /* 深灰色，增强悬停反馈 */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  color: white; /* Contrast text color */
 }
+
+.nav-link {
+  color: white;
+  margin-right: 10px;
+  transition: color 0.3s;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: #66a6ff; /* Lighter blue on hover for interactivity */
+}
+
+.dropdown-menu {
+  border-radius: 15px; /* 容器的圆角 */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
 
 .dropdown-item:hover, .dropdown-item:focus {
-  background-color: #0069d9; /* 略微亮一点的蓝色，增强交互效果 */
-  color: #ffffff;
+  background-color: #0069d9; /* 互动时的浅蓝色 */
+  color: white;
 }
 
-/* 微调下拉菜单样式，增加细微阴影，提升层次感 */
-.dropdown-menu {
-  box-shadow: 0 2px 5px rgba(0,0,0,.1);
-  border: 1px solid #ddd; /* 轻微边框，增强视觉效果 */
+.dropdown-item:first-child {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
-/* 增加导航栏的视觉吸引力 */
-.navbar {
-  position: sticky;
-    top: 0; /* 将导航栏固定在视口的顶部 */
-    z-index: 1000; /* 确保导航栏位于页面其他元素之上 */
-    background-color: #007bff; /* 导航栏背景颜色 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加一些阴影以增强层次感 */
-    border-radius: 30px; /* 可以根据需要调整圆角 */
+.dropdown-item:last-child {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
+
+
+.badge-info {
+  background-color: #17a2b8;
+}
+
+/* 改变折叠按钮的图标颜色 */
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* 调整背景色 */
+.navbar-toggler {
+    background-color: #17a2b8; /* 或者任何你想要的颜色 */
+    margin-right: 20px;
+}
+
 </style>
+
 
 
 <script>
@@ -164,7 +191,6 @@ export default {
     onSubmitSearch() {
       if (!this.searchForm.body) {
         $('#searchBody').attr('placeholder', 'keyword required.');
-        $('#searchBody').css('background-color', '#fff0f0');
 
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false
