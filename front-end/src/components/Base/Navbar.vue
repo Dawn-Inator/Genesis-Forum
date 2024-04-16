@@ -105,7 +105,7 @@
 
 .navbar-modern {
   background-color: #007bff; /* Vibrant blue */
-  border-radius: 30px; /* Rounded corners for modern look */
+  border-radius: 60px; /* Rounded corners for modern look */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   padding: 10px; /* Adequate padding for visual balance */
 }
