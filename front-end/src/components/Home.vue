@@ -2,7 +2,7 @@
   <div class="container">
 
     <div class="btn-group my-3 d-flex justify-content-center" role="group" aria-label="Categories">
-          <button type="button" class="btn gradient-btn" @click="getPosts()" style="border-radius: 10px; background-image: linear-gradient(to right, #ec09e1, #fc073d);">
+          <button type="button" class="btn gradient-btn" @click="getPosts()" style="border-radius: 10px; background-image: linear-gradient(to right, #d606ff, #fc0106);">
             全部
           </button>
           <button v-for="category in categories" :key="category.id"
