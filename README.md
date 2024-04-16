@@ -17,7 +17,7 @@
   <a href="https://github.com/Dawn-Inator/Genesis-Forum/stargazers"><img src="https://img.shields.io/github/stars/Dawn-Inator/Genesis-Forum?color=E2CDBC&amp;logo=github&amp;style=for-the-badge" alt="Github stars"></a>
   <a href="https://github.com/Dawn-Inator/Genesis-Forum/actions/workflows/docker-latest.yml"><img src="https://img.shields.io/github/actions/workflow/status/lss233/chatgpt-mirai-qq-bot/docker-latest.yml?color=E2CDBC&amp;logo=docker&amp;logoColor=white&amp;style=for-the-badge" alt="Docker build latest"></a>
   <a href="https://hub.docker.com/r/Dawn-Inator/Genesis-Forum/"><img src="https://img.shields.io/docker/pulls/Dawn-Inator/Genesis-Forum?color=E2CDBC&amp;logo=docker&amp;logoColor=white&amp;style=for-the-badge" alt="Docker Pulls"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/github/license/Dawn-Inator/Genesis-Forum?&amp;color=E2CDBC&amp;style=for-the-badge" alt="License"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/Dawn-Inator/Genesis-Forum?&amp;style=for-the-badge" alt="License"></a>
 </p>
 
 ---
