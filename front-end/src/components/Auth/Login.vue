@@ -30,7 +30,7 @@
                   :sitekey="cf_sitekey"
                   @verify="cf_callback"
                 />
-            <button type="submit" class="btn btn-primary" >{{ $t('auth.login.sign-in') }}</button>
+            <button type="submit" class="btn btn-primary" :disabled="!cf_token">{{ $t('auth.login.sign-in') }}</button>
           </div>
 
         </form>
@@ -133,7 +133,7 @@ export default {
   data () {
     return {
       cf_token: '',
-      cf_sitekey: '0x4AAAAAAAWzc-_e-wYdhX2u',
+      cf_sitekey: '你的cloudflare授权码',
       sharedState: store.state,
       loginForm: {
         username: '',
