@@ -2,7 +2,7 @@
   <div class="container">
 
     <div class="btn-group my-3 d-flex justify-content-center" role="group" aria-label="Categories">
-          <button type="button" class="btn gradient-btn" @click="getPosts()" style="border-radius: 10px;">
+          <button type="button" class="btn gradient-btn" @click="getPosts()" style="border-radius: 10px; background-image: linear-gradient(to right, #ec09e1, #fc073d);">
             全部
           </button>
           <button v-for="category in categories" :key="category.id"
@@ -141,14 +141,23 @@
   display: flex;
   justify-content: center; /* 水平居中按钮组 */
   flex-wrap: wrap; /* 允许按钮换行 */
+  gap: 10px; /* 在按钮间添加10px的间隔 */
 }
 
 .gradient-btn {
+  flex: 1 0 10%; /* 按钮至少占一行的45%，允许换行时自动填满空间 */
   color: white; /* 设置按钮文本为白色 */
   background-image: linear-gradient(to right, #444dec, #51fc51); /* 渐变背景色 */
   border: none; /* 去除边框 */
-  margin: 0 30px; /* 增加按钮间的间距 */
+  margin: 5px; /* 增加按钮间的间距 */
   transition: transform 0.3s ease-in-out; /* 平滑变换效果 */
+  text-align: center; /* 文本居中 */
+}
+
+@media (max-width: 600px) { /* 当屏幕宽度小于600px时 */
+  .gradient-btn {
+    flex: 1 0 100%; /* 每个按钮独占一行 */
+  }
 }
 
 .gradient-btn:hover {
