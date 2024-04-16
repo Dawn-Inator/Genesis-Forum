@@ -163,6 +163,27 @@
     margin-right: 20px;
 }
 
+/* 针对用户名的按钮移除下划线 */
+.btn-user_avatar {
+  text-decoration: none; /* 移除下划线 */
+  transition: background-color 0.3s; /* 平滑的背景色变化 */
+}
+
+.btn-user_avatar:hover {
+  background-color: #00aaff; /* 鼠标悬停时的背景色 */
+  text-decoration: none; /* 确保悬停时没有下划线 */
+}
+
+/* 针对包含图片的链接移除下划线 */
+a.no-caret {
+  text-decoration: none; /* 移除下划线 */
+}
+
+a.no-caret:hover {
+  text-decoration: none; /* 确保悬停时没有下划线 */
+}
+
+
 </style>
 
 
