@@ -8,7 +8,7 @@
     一款使用vue和flask搭建的文章论坛！
     <br/>
     <br/>
-    <a href="https://forum.inator.site"><strong>» 👉点击开启我的旅行 »</strong></a>
+    <a href="https://forum.inator.site" target="_blank"><strong>» 👉点击开启我的旅行 »</strong></a>
     <br/>
   </p>
 </p>
