@@ -1,0 +1,24 @@
+# 第一阶段：使用 Node.js 镜像构建静态文件
+FROM node:10.15.3 AS builder
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制前端源代码到工作目录
+COPY ./front-end /app
+
+# 安装依赖并构建静态文件
+RUN npm install && npm run build
+
+# 第二阶段：使用 Nginx 镜像
+FROM nginx:latest
+
+# 将从第一阶段构建的整个 app 目录（包括 dist）复制到 Nginx 镜像中的 /app 下
+COPY --from=builder /app /app
+
+# 暴露端口
+EXPOSE 80
+
+RUN chmod +x /app/boot.sh
+
+ENTRYPOINT ["bash", "/app/boot.sh"]

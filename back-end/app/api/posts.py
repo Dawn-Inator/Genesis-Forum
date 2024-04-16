@@ -3,7 +3,7 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import error_response, bad_request
 from app.extensions import db
-from app.models import Permission, Post, Comment, Category
+from app.models import Permission, Post, Comment
 from app.utils.decorator import permission_required
 
 
@@ -29,9 +29,8 @@ def create_post():
 
     post = Post()
     post.from_dict(data)
-    post.author = g.current_user  # 通过 auth.py 中 verify_token() 传递过来的（同一个request中，需要先进行 Token 认证）
     post.category_id = data.get('category_id')
-
+    post.author = g.current_user  # 通过 auth.py 中 verify_token() 传递过来的（同一个request中，需要先进行 Token 认证）
     db.session.add(post)
     # 给文章作者的所有粉丝发送新文章通知
     for user in post.author.followers:
@@ -109,15 +108,7 @@ def update_post(id):
     if message:
         return bad_request(message)
 
-    category_id = data.get('category_id')
-    if category_id:
-        category = Category.query.get(category_id)
-        if not category:
-            return error_response(404, 'Category not found.')
-        post.category = category
-
     post.from_dict(data)
-
     db.session.commit()
     return jsonify(post.to_dict())
 
@@ -288,7 +279,6 @@ def get_search_post(id):
     else:
         data['_links']['prev'] = None
     return jsonify(data)
-
 
 @bp.route('/categories/', methods=['GET'])
 def get_categories():

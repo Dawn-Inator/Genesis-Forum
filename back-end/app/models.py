@@ -180,7 +180,7 @@ class Role(PaginatedAPIMixin, db.Model):
             'author': ('作者', (Permission.FOLLOW, Permission.COMMENT, Permission.WRITE)),
             'administrator': ('管理员', (Permission.FOLLOW, Permission.COMMENT, Permission.WRITE, Permission.ADMIN)),
         }
-        default_role = 'author'
+        default_role = 'reader'
         for r in roles:  # r 是字典的键
             role = Role.query.filter_by(slug=r).first()
             if role is None:
@@ -618,12 +618,12 @@ class Post(SearchableMixin, PaginatedAPIMixin, db.Model):
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     views = db.Column(db.Integer, default=0)
+    category_id = db.Column(db.Integer)
     # 外键, 直接操纵数据库当user下面有posts时不允许删除user，下面仅仅是 ORM-level “delete” cascade
     # db.ForeignKey('users.id', ondelete='CASCADE') 会同时在数据库中指定 FOREIGN KEY level “ON DELETE” cascade
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic',
                                cascade='all, delete-orphan')
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     # 博客文章与喜欢/收藏它的人是多对多关系
     likers = db.relationship('User', secondary=posts_likes, backref=db.backref('liked_posts', lazy='dynamic'), lazy='dynamic')
 
@@ -677,12 +677,6 @@ class Post(SearchableMixin, PaginatedAPIMixin, db.Model):
         for field in ['title', 'summary', 'body', 'timestamp', 'views']:
             if field in data:
                 setattr(self, field, data[field])
-        if 'category_name' in data:
-            category = Category.query.filter_by(name=data['category_name']).first()
-            if category is None:
-                category = Category(name=data['category_name'])
-                db.session.add(category)
-            self.category = category
 
     def is_liked_by(self, user):
         '''判断用户 user 是否已经收藏过该文章'''
@@ -907,10 +901,3 @@ class Task(PaginatedAPIMixin, db.Model):
 
     def __repr__(self):
         return '<Task {}>'.format(self.id)
-
-
-class Category(db.Model):
-    __tablename__ = 'categories'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), unique=True, nullable=False)
-    posts = db.relationship('Post', backref='category', lazy='dynamic')

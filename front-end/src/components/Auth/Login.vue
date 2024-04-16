@@ -23,13 +23,15 @@
             <small class="text-danger" v-show="loginForm.passwordError">{{ loginForm.passwordError }}</small>
           </div>
 
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAAWIZbWOBsTyF9ID" data-callback="javascriptCallback"></div>
 
-          <div class="text-center" v-if="!cf_token">
-            <button type="submit" class="btn btn-primary">{{ $t('auth.login.sign-in') }}</button>
+
+          <div class="text-center">
+            <cfturnstile
+                  :sitekey="cf_sitekey"
+                  @verify="cf_callback"
+                />
+            <button type="submit" class="btn btn-primary" >{{ $t('auth.login.sign-in') }}</button>
           </div>
-
-
 
         </form>
       </div>
@@ -121,12 +123,17 @@
 
 <script>
 import store from '../../store'
+import Turnstile from 'cfturnstile-vue2'
 
 export default {
   name: 'Login',  //this is the name of the component
+  components: {
+      'cfturnstile': Turnstile
+    },
   data () {
     return {
       cf_token: '',
+      cf_sitekey: '0x4AAAAAAAWzc-_e-wYdhX2u',
       sharedState: store.state,
       loginForm: {
         username: '',
@@ -138,6 +145,9 @@ export default {
     }
   },
   methods: {
+    cf_callback(token) {
+      this.cf_token=token
+    },
     onSubmit (e) {
       this.loginForm.errors = 0  // 重置
 
@@ -194,20 +204,5 @@ export default {
         })
     }
   },
-  mounted() {
-    window.onloadTurnstileCallback = function () {
-        turnstile.render('#cf-turnstile', {
-            sitekey: '0x4AAAAAAAWIZbWOBsTyF9ID',
-            callback: function(token) {
-                console.log(`Challenge Success ${token}`);
-                this.cf_token=token
-            },
-        });
-    };
-
-    if (typeof turnstile !== 'undefined') {
-        window.onloadTurnstileCallback(); // 如果 turnstile 已加载，立即调用
-      }
-  }
 }
 </script>

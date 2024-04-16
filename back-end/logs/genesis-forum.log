@@ -1,4 +1,4 @@
-2024-04-12 21:27:52,825 ERROR: Exception on /api/search/ [GET] [in D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py:1761]
+2024-04-16 16:23:56,756 ERROR: Exception on /api/search/ [GET] [in D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py:1761]
 Traceback (most recent call last):
   File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -16,7 +16,7 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "D:\template\Genesis-Forum\back-end\app\api\posts.py", line 232, in search
+  File "D:\template\Genesis-Forum\back-end\app\api\posts.py", line 220, in search
     total, hits_basequery = Post.search(q, page, per_page)
   File "D:\template\Genesis-Forum\back-end\app\models.py", line 16, in search
     total, hits, highlights = query_index(cls.__tablename__, query, page, per_page, ids)
@@ -33,41 +33,7 @@ Traceback (most recent call last):
   File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\elasticsearch\connection\base.py", line 131, in _raise_error
     raise HTTP_EXCEPTIONS.get(status_code, TransportError)(status_code, error_message, additional_info)
 elasticsearch.exceptions.RequestError: RequestError(400, 'illegal_argument_exception', 'failed to find analyzer [ik_max_word]')
-2024-04-12 23:40:10,762 ERROR: Exception on /api/search/ [GET] [in D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py:1761]
-Traceback (most recent call last):
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
-    response = self.full_dispatch_request()
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask_cors\extension.py", line 161, in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask_restful\__init__.py", line 269, in error_router
-    return original_handler(e)
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\_compat.py", line 35, in reraise
-    raise value
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "D:\template\Genesis-Forum\back-end\app\api\posts.py", line 232, in search
-    total, hits_basequery = Post.search(q, page, per_page)
-  File "D:\template\Genesis-Forum\back-end\app\models.py", line 16, in search
-    total, hits, highlights = query_index(cls.__tablename__, query, page, per_page, ids)
-  File "D:\template\Genesis-Forum\back-end\app\utils\elasticsearch.py", line 63, in query_index
-    tokens = current_app.elasticsearch.indices.analyze(index=index, body=analyze_body)
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\elasticsearch\client\utils.py", line 84, in _wrapped
-    return func(*args, params=params, **kwargs)
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\elasticsearch\client\indices.py", line 20, in analyze
-    "GET", _make_path(index, "_analyze"), params=params, body=body
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\elasticsearch\transport.py", line 318, in perform_request
-    status, headers_response, data = connection.perform_request(method, url, params, body, headers=headers, ignore=ignore, timeout=timeout)
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\elasticsearch\connection\http_urllib3.py", line 239, in perform_request
-    self._raise_error(response.status, raw_data)
-  File "D:\template\flask-vuejs-madblog-test 0.18\back-end\venv\lib\site-packages\elasticsearch\connection\base.py", line 131, in _raise_error
-    raise HTTP_EXCEPTIONS.get(status_code, TransportError)(status_code, error_message, additional_info)
-elasticsearch.exceptions.RequestError: RequestError(400, 'illegal_argument_exception', 'failed to find analyzer [ik_max_word]')
-2024-04-12 23:44:44,832 INFO: Flask API Startup [in D:\template\Genesis-Forum\back-end\app\__init__.py:87]
-2024-04-13 01:18:39,058 INFO: Flask API Startup [in D:\template\Genesis-Forum\back-end\app\__init__.py:87]
-2024-04-13 01:24:41,553 INFO: Flask API Startup [in D:\template\Genesis-Forum\back-end\app\__init__.py:87]
+2024-04-16 16:26:02,979 INFO: Flask API Startup [in D:\template\Genesis-Forum\back-end\app\__init__.py:87]
+2024-04-16 16:32:55,279 INFO: Flask API Startup [in D:\template\Genesis-Forum\back-end\app\__init__.py:87]
+2024-04-16 16:33:05,659 INFO: Flask API Startup [in D:\template\Genesis-Forum\back-end\app\__init__.py:87]
+2024-04-16 16:33:26,433 INFO: Flask API Startup [in D:\template\Genesis-Forum\back-end\app\__init__.py:87]

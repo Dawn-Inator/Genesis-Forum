@@ -18,7 +18,7 @@ class Config(object):
     MAIL_USE_SSL = 1
     MAIL_USERNAME='dawn.inator.bot@gmail.com'
     MAIL_PASSWORD='kzfaebxscogkapzv'
-    MAIL_SENDER='madblog bot'
+    MAIL_SENDER='Genesis Bot'
 
     ADMINS = ['dawn.inator.lzl@gmail.com']  # 管理员的邮箱地址
 
