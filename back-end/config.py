@@ -16,11 +16,11 @@ class Config(object):
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = 1
-    MAIL_USERNAME='dawn.inator.bot@gmail.com'
-    MAIL_PASSWORD='kzfaebxscogkapzv'
-    MAIL_SENDER='Genesis Bot'
+    MAIL_USERNAME='你的机器人邮箱'
+    MAIL_PASSWORD='邮箱的授权码'
+    MAIL_SENDER='机器人名字'
 
-    ADMINS = ['dawn.inator.lzl@gmail.com']  # 管理员的邮箱地址
+    ADMINS = ['admin1@gmail.com','admin2@gmail.com']  # 管理员的邮箱地址
 
     # 分页设置
     POSTS_PER_PAGE = 10
