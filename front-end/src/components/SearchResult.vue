@@ -12,7 +12,7 @@
             </button>
           </div>
           <div class="modal-body">
-          
+
             <form id="editPostForm" @submit.prevent="onSubmitUpdatePost" @reset.prevent="onResetUpdatePost">
               <div class="form-group" v-bind:class="{'u-has-error-v1': editPostForm.titleError}">
                 <input type="text" v-model="editPostForm.title" class="form-control" id="editPostFormTitle" placeholder="标题">
@@ -28,7 +28,7 @@
               <button type="reset" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="btn btn-primary">Update</button>
             </form>
-    
+
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@
         <h3 class="h6 mb-0">
           <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> All Posts <small v-if="posts">(共 {{ posts._meta.total_items }} 篇, {{ posts._meta.total_pages }} 页)</small>
         </h3>
-        
+
         <div class="dropdown g-mb-10 g-mb-0--md">
           <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="icon-options-vertical g-pos-rel g-top-1"></i>
@@ -55,13 +55,13 @@
             <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 10 }}" class="dropdown-item g-px-10">
               <i class="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 10 篇
             </router-link>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 20 }}" class="dropdown-item g-px-10">
               <i class="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 20 篇
             </router-link>
-            
+
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
             </span>
             <img v-else class="d-flex g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded-circle rounded mCS_img_loaded g-mt-3 g-mr-15" v-bind:src="post.author.avatar" v-bind:alt="post.author.name || post.author.username">
           </router-link>
-          
+
           <div class="media-body">
             <div class="g-mb-15">
               <h5 class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${post.author.id}` }" class="g-text-underline--none--hover">{{ post.author.name || post.author.username }}</router-link> <span class="h6">发布了文章<router-link v-bind:to="{ name: 'PostDetail', params: { id: post.id }, query: { q: $route.query.q, page: $route.query.page, per_page: $route.query.per_page } }" class="g-text-underline--none--hover">《<span v-html="post.title"></span>》</router-link></span></h5>
@@ -144,6 +144,109 @@
   </div>
 </template>
 
+<style scoped>
+.author-link {
+  text-decoration: none; /* 添加这行以去除下划线 */
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.article-title {
+  font-weight: 800;
+  margin-right: 10px;
+}
+
+.category-tag {
+  display: inline-block;
+  background-image: linear-gradient(to right, #ca3cdd, #53bdba); /* 渐变蓝色背景 */
+  color: white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  vertical-align: middle;
+}
+
+
+/* 其他样式保持不变 */
+
+
+.media {
+  border: 1px solid #dee2e6;
+  border-left: 5px solid #007bff; /* 左边框蓝色 */
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.media:hover {
+  box-shadow: 0 4px 8px rgba(215, 23, 232, 0.2);
+}
+
+.media img {
+  border: 2px solid #ffffff;
+  transition: transform 0.3s ease;
+}
+
+.u-badge-v2--xs {
+  background-color: #ff0000;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.markdown-body {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* 为按钮添加现代化的蓝色风格 */
+.btn-xs, .g-color-gray-dark-v5 {
+  transition: all 0.2s ease;
+  background-image: linear-gradient(to right, #007bff, #0056b3); /* 渐变蓝色背景 */
+  color: #ffffff; /* 文字颜色为白色 */
+  border-radius: 20px; /* 边框圆角 */
+  padding: 5px 10px; /* 调整内边距 */
+  font-size: 0.8rem; /* 调整字体大小 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影 */
+}
+
+.btn-xs:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 悬浮时阴影加深 */
+}
+
+/* 作者名字和文章标题的蓝色表示 */
+h5 a, .h6 a {
+  color: #007bff !important; /* 设置链接颜色为蓝色 */
+  transition: color 0.2s ease; /* 平滑颜色过渡效果 */
+}
+
+h5 a:hover, .h6 a:hover {
+  color: #cd42f3 !important; /* 鼠标悬停时颜色加深 */
+}
+
+.icon-eye, .icon-heart, .icon-bubble {
+  margin-right: 5px;
+}
+
+.list-inline-item .btn {
+  margin: 0 5px;
+}
+
+.g-color-gray-dark-v5 {
+  color: #c2d9ef !important;
+}
+
+.g-color-gray-dark-v5:hover {
+  color: #ff6bff !important; /* 链接和图标悬停时的蓝色 */
+}
+</style>
+
 <script>
 import store from '../store'
 import Post from './Base/Post'
@@ -199,7 +302,7 @@ export default {
       if (typeof this.$route.query.per_page != 'undefined') {
         per_page = this.$route.query.per_page
       }
-      
+
       if (typeof q != 'undefined') {
         path = `/api/search/?q=${q}&page=${page}&per_page=${per_page}`
       } else {
