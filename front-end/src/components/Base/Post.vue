@@ -66,6 +66,18 @@
 </template>
 
 <style scoped>
+
+@media (max-width: 460px) { /* 针对小屏幕设备的媒体查询 */
+  .list-inline {
+    flex-direction: column; /* 小屏幕上垂直排列 */
+  }
+
+  .list-inline-item {
+    margin-right: 0; /* 移除水平间隔 */
+    margin-bottom: 10px; /* 添加垂直间隔 */
+  }
+}
+
 .author-link {
   text-decoration: none; /* 添加这行以去除下划线 */
   color: #007bff;
