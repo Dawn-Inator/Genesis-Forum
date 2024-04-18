@@ -17,7 +17,7 @@
   <a href="https://github.com/Dawn-Inator/Genesis-Forum/stargazers"><img src="https://img.shields.io/github/stars/Dawn-Inator/Genesis-Forum?color=E2CDBC&amp;logo=github&amp;style=for-the-badge" alt="Github stars"></a>
   <a href="https://github.com/Dawn-Inator/Genesis-Forum/actions/workflows/docker-latest.yml"><img src="https://img.shields.io/github/actions/workflow/status/lss233/chatgpt-mirai-qq-bot/docker-latest.yml?color=E2CDBC&amp;logo=docker&amp;logoColor=white&amp;style=for-the-badge" alt="Docker build latest"></a>
   <a href="https://hub.docker.com/r/Dawn-Inator/Genesis-Forum/"><img src="https://img.shields.io/docker/pulls/Dawn-Inator/Genesis-Forum?color=E2CDBC&amp;logo=docker&amp;logoColor=white&amp;style=for-the-badge" alt="Docker Pulls"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/github/license/Dawn-Inator/Genesis-Forum?&amp;style=for-the-badge" alt="License"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/Dawn-Inator/Genesis-Forum?&amp;color=E2CDBC&amp;style=for-the-badge" alt="License"></a>
 </p>
 
 ---
@@ -39,6 +39,7 @@
 * [x] 多任务后台
 * [x] 全文搜索
 * [x] 国际化
+* [x] token存储
 * [x] SSL证书和https加密
 * [x] 可视化UI管理域名和流量
 
@@ -105,6 +106,27 @@
 <br>
 
 ## 👓项目结构
+
+- 我们的项目数据库用表如下
+
+```
++-----------------+
+| Tables_in_forum |
++-----------------+
+| alembic_version |
+| blacklist       |
+| comments        |
+| comments_likes  |
+| followers       |
+| messages        |
+| notifications   |
+| posts           |
+| posts_likes     |
+| roles           |
+| tasks           |
+| users           |
++-----------------+
+```
 
 我们linux分支和docker分支的结构不一样，这个也是影响部署难度的根本原因。相对来讲linux分支的部署更加"底层化"和"原始化"，Docker分支的更加"成品化"和"现代化"。总之docker分支是对linux分支部署上的改进和优化，但是部署完成之后二者并无产品上的区别。
 
