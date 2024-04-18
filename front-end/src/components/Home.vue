@@ -145,7 +145,7 @@
 }
 
 .gradient-btn {
-  flex: 1 0 10%; /* 按钮至少占一行的45%，允许换行时自动填满空间 */
+  flex: 1 0 10%; 
   color: white; /* 设置按钮文本为白色 */
   background-image: linear-gradient(to right, #444dec, #51fc51); /* 渐变背景色 */
   border: none; /* 去除边框 */
