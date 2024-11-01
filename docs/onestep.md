@@ -47,7 +47,7 @@ vim back-end/config.py
 - 修改cloudflare授权码
 
 ```
-vim front-end/src/components/Auth/login.vue
+vim front-end/src/components/Auth/Login.vue
 ```
 
 ```
