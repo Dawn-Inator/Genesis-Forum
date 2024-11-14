@@ -67,7 +67,24 @@ vim front-end/src/components/Auth/Login.vue
   },
 ```
 
-- 启动
+- 没有cloudflare授权码？？
+```
+vim front-end/src/components/Auth/Login.vue
+```
+
+```
+<div class="text-center">
+  <cfturnstile
+    :sitekey="cf_sitekey"
+    @verify="cf_callback"
+  />
+  <button type="submit" class="btn btn-primary" :disabled="!cf_token">{{ $t('auth.login.sign-in') }}</button>
+</div>
+```
+- 把`:disabled="!cf_token"`删掉
+
+
+- 启动！！
 ```
 chmod +x onestep.sh&&./onestep.sh
 ```
