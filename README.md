@@ -248,8 +248,6 @@ docker分支 --(先进的部署)--> docker分支的产品
 </a>
 <br><br>
 
-Made with [contrib.rocks](https://contrib.rocks).
-
 ## 💪支持我们
 
 如果我们这个项目对你有所帮助，请给我们一颗 ⭐️
